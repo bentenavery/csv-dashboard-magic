@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe to CSV Dashboard Pro - $20/month</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="card rounded-2xl p-8 max-w-md w-full text-center">
+        <div class="text-white mb-8">
+            <h1 class="text-3xl font-bold mb-4">🚀 CSV Dashboard Pro</h1>
+            <p class="text-lg opacity-90 mb-2">Unlimited Dashboards • Premium Templates • Priority Support</p>
+            <div class="text-4xl font-bold mb-2">$20<span class="text-lg">/month</span></div>
+            <p class="text-sm opacity-75">7-day free trial • Cancel anytime</p>
+        </div>
+
+        <form id="payment-form" class="space-y-6">
+            <div class="text-left">
+                <label class="block text-white text-sm font-medium mb-2">Email Address</label>
+                <input type="email" id="email" required 
+                       class="w-full p-3 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:border-white/60 focus:outline-none"
+                       placeholder="your@email.com">
+            </div>
+
+            <div class="text-left">
+                <label class="block text-white text-sm font-medium mb-2">Full Name</label>
+                <input type="text" id="name" required
+                       class="w-full p-3 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:border-white/60 focus:outline-none"
+                       placeholder="John Doe">
+            </div>
+
+            <div class="text-left">
+                <label class="block text-white text-sm font-medium mb-2">Company (Optional)</label>
+                <input type="text" id="company"
+                       class="w-full p-3 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:border-white/60 focus:outline-none"
+                       placeholder="Acme Corp">
+            </div>
+
+            <button type="submit" id="checkout-btn" 
+                    class="w-full bg-white text-indigo-600 p-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition duration-200 shadow-lg">
+                ✨ Start 7-Day Free Trial
+            </button>
+        </form>
+
+        <div id="loading" class="hidden text-white text-center">
+            <div class="animate-spin h-8 w-8 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p>Redirecting to secure checkout...</p>
+        </div>
+
+        <p class="text-white/70 text-xs mt-6">
+            💳 Secure payment processing by Stripe<br>
+            🔒 30-day money-back guarantee
+        </p>
+
+        <div class="text-white/60 text-xs mt-4">
+            <a href="/" class="hover:text-white underline">← Back to Dashboard Builder</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('payment-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const company = document.getElementById('company').value;
+            
+            // Show loading state
+            document.getElementById('payment-form').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            
+            // For now, redirect to a Stripe Payment Link with customer info
+            // In production, this would create a Stripe checkout session with customer data
+            const stripeUrl = `https://buy.stripe.com/test_dR6aEA6FGa4fbS03cc?prefilled_email=${encodeURIComponent(email)}`;
+            
+            setTimeout(() => {
+                window.location.href = stripeUrl;
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
