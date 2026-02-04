@@ -6,6 +6,7 @@ export default function Home() {
   const [csvData, setCsvData] = useState(null)
   const [fileName, setFileName] = useState('')
   const [processing, setProcessing] = useState(false)
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0]
@@ -22,6 +23,33 @@ export default function Home() {
       header: true,
       skipEmptyLines: true
     })
+  }
+
+  const handleProUpgrade = async () => {
+    setCheckoutLoading(true)
+    try {
+      const response = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          priceId: 'price_1OProPlan20USD', // This would be your real Stripe price ID
+          successUrl: `${window.location.origin}/success`,
+          cancelUrl: `${window.location.origin}/cancel`,
+        }),
+      })
+
+      const { url } = await response.json()
+      if (url) {
+        window.location.href = url
+      }
+    } catch (error) {
+      console.error('Checkout error:', error)
+      alert('Something went wrong. Please try again.')
+    } finally {
+      setCheckoutLoading(false)
+    }
   }
 
   return (
@@ -306,8 +334,19 @@ export default function Home() {
                     </li>
                   </ul>
                   
-                  <button className="w-full py-4 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-bold rounded-2xl shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105 mb-3">
-                    Start Free Trial ✨
+                  <button 
+                    onClick={handleProUpgrade}
+                    disabled={checkoutLoading}
+                    className="w-full py-4 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-bold rounded-2xl shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105 mb-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {checkoutLoading ? (
+                      <div className="flex items-center justify-center">
+                        <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                        Processing...
+                      </div>
+                    ) : (
+                      'Start Free Trial ✨'
+                    )}
                   </button>
                   
                   <p className="text-purple-300 text-sm">
