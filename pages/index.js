@@ -34,7 +34,7 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          priceId: 'price_1OProPlan20USD', // This would be your real Stripe price ID
+          priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || 'price_1OSk1QJxXxXxXxXxXxXxXxXx', // ChartFlow Pro $20/month
           successUrl: `${window.location.origin}/success`,
           cancelUrl: `${window.location.origin}/cancel`,
         }),
