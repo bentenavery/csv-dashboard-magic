@@ -144,93 +144,111 @@ export default function DashboardPreview({ data, fileName }) {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">
-          Dashboard: {fileName}
-        </h2>
-        <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-          Save Dashboard
-        </button>
-      </div>
+    <div className="relative">
+      {/* Glow effect */}
+      <div className="absolute -inset-4 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-3xl blur opacity-30 animate-pulse"></div>
+      
+      <div className="relative bg-gradient-to-br from-white/15 to-white/10 backdrop-blur-xl rounded-3xl border border-white/20 p-8 shadow-2xl">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <div>
+            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200 mb-2">
+              ✨ Your Dashboard Is Ready!
+            </h2>
+            <p className="text-purple-200">
+              Created from: <span className="font-semibold text-pink-300">{fileName}</span>
+            </p>
+          </div>
+          <button className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-2xl font-bold hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-105 flex items-center">
+            <span className="mr-2">💾</span>
+            Save Dashboard
+          </button>
+        </div>
 
       {/* Chart Controls */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 p-6 bg-gradient-to-r from-purple-800/30 to-pink-800/30 rounded-2xl border border-purple-300/20 backdrop-blur-sm">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-bold text-purple-100 mb-3 flex items-center">
+            <span className="mr-2">📊</span>
             Chart Type
           </label>
           <select
             value={chartType}
             onChange={(e) => setChartType(e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            className="w-full bg-white/10 border border-purple-300/30 rounded-xl px-4 py-3 text-white font-medium backdrop-blur-sm focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400/50 transition-all"
           >
-            <option value="bar">Bar Chart</option>
-            <option value="line">Line Chart</option>
-            <option value="pie">Pie Chart</option>
+            <option value="bar" className="bg-purple-900 text-white">📊 Bar Chart</option>
+            <option value="line" className="bg-purple-900 text-white">📈 Line Chart</option>
+            <option value="pie" className="bg-purple-900 text-white">🥧 Pie Chart</option>
           </select>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-bold text-purple-100 mb-3 flex items-center">
+            <span className="mr-2">📏</span>
             X Axis (Categories)
           </label>
           <select
             value={selectedColumns.x}
             onChange={(e) => setSelectedColumns({...selectedColumns, x: e.target.value})}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            className="w-full bg-white/10 border border-purple-300/30 rounded-xl px-4 py-3 text-white font-medium backdrop-blur-sm focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400/50 transition-all"
           >
             {columns.map(col => (
-              <option key={col} value={col}>{col}</option>
+              <option key={col} value={col} className="bg-purple-900 text-white">{col}</option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-bold text-purple-100 mb-3 flex items-center">
+            <span className="mr-2">📐</span>
             Y Axis (Values)
           </label>
           <select
             value={selectedColumns.y}
             onChange={(e) => setSelectedColumns({...selectedColumns, y: e.target.value})}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            className="w-full bg-white/10 border border-purple-300/30 rounded-xl px-4 py-3 text-white font-medium backdrop-blur-sm focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400/50 transition-all"
           >
             {columns.map(col => (
-              <option key={col} value={col}>{col}</option>
+              <option key={col} value={col} className="bg-purple-900 text-white">{col}</option>
             ))}
           </select>
         </div>
       </div>
 
       {/* Chart Display */}
-      <div className="h-96 mb-6">
-        {renderChart()}
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-white/10">
+        <div className="h-96">
+          {renderChart()}
+        </div>
       </div>
 
       {/* Data Preview */}
-      <div className="border-t pt-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-3">
-          Data Preview ({data.length} rows)
+      <div className="bg-gradient-to-r from-indigo-800/20 to-purple-800/20 rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
+        <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+          <span className="mr-2">📋</span>
+          Data Preview 
+          <span className="ml-2 text-pink-300">({data.length} rows)</span>
         </h3>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
+        
+        <div className="overflow-x-auto rounded-xl">
+          <table className="min-w-full">
+            <thead>
+              <tr className="bg-gradient-to-r from-purple-600/50 to-pink-600/50">
                 {columns.slice(0, 5).map(col => (
                   <th
                     key={col}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider"
                   >
                     {col}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white/5 backdrop-blur-sm divide-y divide-white/10">
               {data.slice(0, 5).map((row, idx) => (
-                <tr key={idx}>
+                <tr key={idx} className="hover:bg-white/5 transition-colors">
                   {columns.slice(0, 5).map(col => (
-                    <td key={col} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td key={col} className="px-6 py-4 whitespace-nowrap text-sm text-purple-100 font-medium">
                       {row[col]}
                     </td>
                   ))}
@@ -239,28 +257,39 @@ export default function DashboardPreview({ data, fileName }) {
             </tbody>
           </table>
         </div>
+        
         {data.length > 5 && (
-          <p className="mt-2 text-sm text-gray-500">
-            ... and {data.length - 5} more rows
+          <p className="mt-4 text-purple-300 text-center">
+            ✨ and {data.length - 5} more rows of awesome data
           </p>
         )}
       </div>
 
       {/* Share Options */}
-      <div className="border-t pt-6 mt-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-3">Share Dashboard</h3>
-        <div className="flex space-x-4">
-          <button className="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200">
-            📧 Share via Email
+      <div className="mt-8 pt-8 border-t border-white/20">
+        <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+          <span className="mr-2">🚀</span>
+          Share Your Masterpiece
+        </h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button className="group bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-4 rounded-2xl font-bold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+            <span className="mr-2 group-hover:animate-bounce">📧</span>
+            Share via Email
           </button>
-          <button className="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200">
-            🔗 Get Share Link
+          
+          <button className="group bg-gradient-to-r from-green-500 to-teal-600 text-white px-6 py-4 rounded-2xl font-bold hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+            <span className="mr-2 group-hover:animate-bounce">🔗</span>
+            Get Share Link
           </button>
-          <button className="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200">
-            📱 Export as Image
+          
+          <button className="group bg-gradient-to-r from-pink-500 to-rose-600 text-white px-6 py-4 rounded-2xl font-bold hover:shadow-lg hover:shadow-pink-500/25 transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+            <span className="mr-2 group-hover:animate-bounce">📱</span>
+            Export Image
           </button>
         </div>
       </div>
     </div>
+      </div>
   )
 }

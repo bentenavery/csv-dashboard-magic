@@ -25,44 +25,108 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      {/* Animated Background */}
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-800/20 to-pink-800/20 animate-pulse"></div>
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-50"></div>
+      
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="text-center">
-          <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            <span className="block">Turn Your</span>
-            <span className="block text-indigo-600">CSV Files Into Beautiful Dashboards</span>
+          <div className="mb-8">
+            <span className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-violet-500 text-white text-sm font-medium animate-bounce">
+              ✨ Transform Your Data in Seconds
+            </span>
+          </div>
+          
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-pink-100 leading-tight">
+            Turn CSV Files Into
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 animate-pulse">
+              Stunning Dashboards
+            </span>
           </h1>
-          <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            Upload any CSV file and get an interactive, shareable dashboard in 60 seconds. 
-            No coding required.
+          
+          <p className="mt-8 max-w-3xl mx-auto text-xl text-purple-100 leading-relaxed">
+            Drop your CSV, get beautiful interactive charts instantly. No spreadsheet headaches, 
+            no complex tools - just <span className="text-pink-300 font-semibold">pure visual magic</span> ✨
           </p>
+          
+          <div className="mt-4 flex justify-center space-x-8 text-sm text-purple-300">
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+              No coding required
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
+              60-second setup
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-pink-400 rounded-full mr-2 animate-pulse"></div>
+              Share anywhere
+            </div>
+          </div>
         </div>
 
         {/* Upload Section */}
-        <div className="mt-16 max-w-lg mx-auto">
+        <div className="mt-20 max-w-2xl mx-auto">
           {!csvData ? (
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <div className="text-center">
-                <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">Upload your CSV file</h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Drag and drop or click to select your CSV file
-                </p>
-                <div className="mt-6">
-                  <label className="cursor-pointer">
-                    <input
-                      type="file"
-                      className="sr-only"
-                      accept=".csv"
-                      onChange={handleFileUpload}
-                    />
-                    <span className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                      {processing ? 'Processing...' : 'Choose CSV File'}
-                    </span>
-                  </label>
+            <div className="relative">
+              {/* Glow effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-3xl blur opacity-75 animate-pulse"></div>
+              
+              <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-12 shadow-2xl">
+                <div className="text-center">
+                  {/* Animated Icon */}
+                  <div className="mx-auto w-24 h-24 bg-gradient-to-br from-pink-400 to-purple-600 rounded-2xl flex items-center justify-center mb-6 transform hover:scale-110 transition-all duration-300 shadow-lg">
+                    <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-white mb-2">Drop Your CSV Magic Here</h3>
+                  <p className="text-purple-200 mb-8 text-lg">
+                    Watch your boring data transform into beautiful insights ✨
+                  </p>
+                  
+                  <div className="border-2 border-dashed border-purple-300/50 rounded-2xl p-8 mb-8 hover:border-pink-300/70 transition-all duration-300">
+                    <label className="cursor-pointer block">
+                      <input
+                        type="file"
+                        className="sr-only"
+                        accept=".csv"
+                        onChange={handleFileUpload}
+                      />
+                      
+                      <div className="text-center">
+                        <div className="text-2xl mb-4">📊</div>
+                        <div className="text-purple-100 text-sm">
+                          Drag & drop your CSV file here or click to browse
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                  
+                  <button
+                    onClick={() => document.querySelector('input[type="file"]').click()}
+                    className="group relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-bold rounded-2xl shadow-xl hover:shadow-pink-500/50 transform hover:scale-105 transition-all duration-300"
+                  >
+                    {processing ? (
+                      <>
+                        <div className="animate-spin mr-3 h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+                        Creating Magic...
+                      </>
+                    ) : (
+                      <>
+                        <span className="mr-2">🚀</span>
+                        Choose Your CSV File
+                        <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+                      </>
+                    )}
+                  </button>
+                  
+                  <div className="mt-6 text-purple-300 text-sm">
+                    Supports files up to 50MB • Instant processing
+                  </div>
                 </div>
               </div>
             </div>
@@ -72,127 +136,185 @@ export default function Home() {
         </div>
 
         {/* Features Section */}
-        <div className="mt-24">
-          <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900">
-              Everything you need to visualize your data
+        <div className="mt-32">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200 mb-4">
+              Why Your Data Will Love This
             </h2>
+            <p className="text-xl text-purple-200 max-w-2xl mx-auto">
+              Everything you need to turn boring spreadsheets into visual masterpieces
+            </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="pt-6">
-              <div className="flow-root bg-white rounded-lg px-6 pb-8">
-                <div className="-mt-6">
-                  <div className="inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
-                    <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">Instant Charts</h3>
-                  <p className="mt-5 text-base text-gray-500">
-                    Automatically generate bar charts, line graphs, and pie charts from your data.
-                  </p>
-                </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Feature 1 */}
+            <div className="group relative">
+              <div className="absolute -inset-2 bg-gradient-to-r from-pink-500/50 to-purple-500/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-300 blur"></div>
+              <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/20 hover:border-pink-300/50 transition-all duration-300">
+                <div className="text-3xl mb-4">⚡</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Lightning Fast</h3>
+                <p className="text-purple-200 leading-relaxed">
+                  Upload your CSV and watch charts appear instantly. No waiting, no loading screens - 
+                  just pure speed and efficiency.
+                </p>
               </div>
             </div>
-            <div className="pt-6">
-              <div className="flow-root bg-white rounded-lg px-6 pb-8">
-                <div className="-mt-6">
-                  <div className="inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
-                    <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-                    </svg>
-                  </div>
-                  <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">Easy Sharing</h3>
-                  <p className="mt-5 text-base text-gray-500">
-                    Generate shareable links with password protection for your dashboards.
-                  </p>
-                </div>
+
+            {/* Feature 2 */}
+            <div className="group relative">
+              <div className="absolute -inset-2 bg-gradient-to-r from-purple-500/50 to-indigo-500/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-300 blur"></div>
+              <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/20 hover:border-purple-300/50 transition-all duration-300">
+                <div className="text-3xl mb-4">🎨</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Beautiful Charts</h3>
+                <p className="text-purple-200 leading-relaxed">
+                  Bar charts, line graphs, pie charts - all automatically styled with gorgeous colors 
+                  that make your data pop.
+                </p>
               </div>
             </div>
-            <div className="pt-6">
-              <div className="flow-root bg-white rounded-lg px-6 pb-8">
-                <div className="-mt-6">
-                  <div className="inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
-                    <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  </div>
-                  <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">Secure & Private</h3>
-                  <p className="mt-5 text-base text-gray-500">
-                    Your data stays secure with enterprise-grade encryption and privacy controls.
-                  </p>
-                </div>
+
+            {/* Feature 3 */}
+            <div className="group relative">
+              <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500/50 to-pink-500/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-300 blur"></div>
+              <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/20 hover:border-indigo-300/50 transition-all duration-300">
+                <div className="text-3xl mb-4">🚀</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Share & Impress</h3>
+                <p className="text-purple-200 leading-relaxed">
+                  Generate shareable links that wow your audience. Your data has never looked 
+                  this professional.
+                </p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Pricing */}
-        <div className="mt-24">
-          <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900">
-              Simple, transparent pricing
-            </h2>
-          </div>
-          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto">
-            <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-8">
-              <h3 className="text-lg font-medium text-gray-900">Free</h3>
-              <p className="mt-4 text-sm text-gray-500">Perfect for trying out the service</p>
-              <p className="mt-8">
-                <span className="text-4xl font-extrabold text-gray-900">$0</span>
-                <span className="text-base font-medium text-gray-500">/month</span>
-              </p>
-              <ul className="mt-6 space-y-4">
-                <li className="flex">
-                  <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <span className="ml-3 text-sm text-gray-500">3 dashboards</span>
-                </li>
-                <li className="flex">
-                  <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <span className="ml-3 text-sm text-gray-500">7-day data retention</span>
-                </li>
-              </ul>
+        <div className="mt-32">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-green-400 to-blue-500 text-white text-sm font-medium mb-6">
+              💰 Simple Pricing That Makes Sense
             </div>
-            <div className="bg-indigo-50 border border-indigo-200 rounded-lg shadow-sm p-8">
-              <h3 className="text-lg font-medium text-indigo-900">Pro</h3>
-              <p className="mt-4 text-sm text-indigo-700">For professionals and small teams</p>
-              <p className="mt-8">
-                <span className="text-4xl font-extrabold text-indigo-900">$20</span>
-                <span className="text-base font-medium text-indigo-700">/month</span>
-              </p>
-              <ul className="mt-6 space-y-4">
-                <li className="flex">
-                  <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <span className="ml-3 text-sm text-indigo-700">Unlimited dashboards</span>
-                </li>
-                <li className="flex">
-                  <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <span className="ml-3 text-sm text-indigo-700">Permanent storage</span>
-                </li>
-                <li className="flex">
-                  <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <span className="ml-3 text-sm text-indigo-700">Custom branding</span>
-                </li>
-                <li className="flex">
-                  <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <span className="ml-3 text-sm text-indigo-700">Password protection</span>
-                </li>
-              </ul>
-              <button className="mt-8 w-full bg-indigo-600 text-white rounded-lg py-2 px-4 hover:bg-indigo-700">
-                Start Free Trial
-              </button>
+            <h2 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200 mb-4">
+              Start Free, Upgrade When Ready
+            </h2>
+            <p className="text-xl text-purple-200">
+              No hidden fees, no surprises - just honest pricing for awesome dashboards
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Free Plan */}
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-green-500/50 to-blue-500/50 rounded-3xl opacity-75 group-hover:opacity-100 transition-opacity blur"></div>
+              <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-8 hover:border-green-300/50 transition-all duration-300">
+                <div className="text-center">
+                  <div className="text-2xl mb-4">🎉</div>
+                  <h3 className="text-2xl font-bold text-white mb-2">Free Forever</h3>
+                  <p className="text-purple-200 mb-8">Perfect for getting started</p>
+                  
+                  <div className="mb-8">
+                    <span className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">$0</span>
+                    <span className="text-purple-200 text-xl">/month</span>
+                  </div>
+                  
+                  <ul className="space-y-4 text-left mb-8">
+                    <li className="flex items-center">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      </div>
+                      <span className="text-purple-100">3 beautiful dashboards</span>
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      </div>
+                      <span className="text-purple-100">7-day data storage</span>
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      </div>
+                      <span className="text-purple-100">All chart types</span>
+                    </li>
+                  </ul>
+                  
+                  <button className="w-full py-4 bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-105">
+                    Start Building Now 🚀
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Pro Plan */}
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-3xl opacity-100 blur animate-pulse"></div>
+              <div className="relative bg-gradient-to-br from-white/15 to-white/10 backdrop-blur-xl rounded-3xl border border-purple-300/50 p-8">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <span className="inline-flex items-center px-4 py-1 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white text-sm font-bold shadow-lg">
+                    ⭐ MOST POPULAR
+                  </span>
+                </div>
+                
+                <div className="text-center pt-4">
+                  <div className="text-2xl mb-4">👑</div>
+                  <h3 className="text-2xl font-bold text-white mb-2">Pro Power</h3>
+                  <p className="text-purple-100 mb-8">For professionals who mean business</p>
+                  
+                  <div className="mb-8">
+                    <span className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">$20</span>
+                    <span className="text-purple-200 text-xl">/month</span>
+                  </div>
+                  
+                  <ul className="space-y-4 text-left mb-8">
+                    <li className="flex items-center">
+                      <div className="w-6 h-6 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      </div>
+                      <span className="text-white font-medium">∞ Unlimited dashboards</span>
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-6 h-6 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      </div>
+                      <span className="text-white font-medium">🔒 Permanent secure storage</span>
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-6 h-6 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      </div>
+                      <span className="text-white font-medium">🎨 Custom branding</span>
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-6 h-6 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      </div>
+                      <span className="text-white font-medium">🔐 Password protection</span>
+                    </li>
+                  </ul>
+                  
+                  <button className="w-full py-4 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-bold rounded-2xl shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105 mb-3">
+                    Start Free Trial ✨
+                  </button>
+                  
+                  <p className="text-purple-300 text-sm">
+                    No credit card required • Cancel anytime
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
