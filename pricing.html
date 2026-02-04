@@ -45,11 +45,6 @@
                 box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 60px rgba(118, 75, 162, 0.6);
             }
         }
-        
-        .enterprise-glow {
-            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,165,0,0.05) 100%);
-            border: 2px solid rgba(255,215,0,0.3);
-        }
     </style>
 </head>
 <body class="animated-gradient min-h-screen text-white">
@@ -63,7 +58,6 @@
             </div>
             <div class="hidden md:flex space-x-6">
                 <a href="index.html" class="hover:text-purple-200 transition-colors">Home</a>
-                <a href="#" class="hover:text-purple-200 transition-colors">Features</a>
                 <a href="#" class="text-purple-300 font-bold">Pricing</a>
                 <a href="#" class="hover:text-purple-200 transition-colors">Contact</a>
             </div>
@@ -74,36 +68,16 @@
     <div class="container mx-auto px-4 py-16 text-center">
         <h1 class="text-4xl md:text-6xl font-bold mb-6">
             <i class="fas fa-gem text-purple-300 mr-3"></i>
-            Choose Your Plan
+            Simple Pricing
         </h1>
         <p class="text-xl md:text-2xl text-purple-100 max-w-3xl mx-auto mb-8">
-            Start free and scale as you grow. No surprises, no hidden fees - just beautiful dashboards that grow with your needs.
+            Start free and upgrade when you're ready. No surprises, just beautiful dashboards.
         </p>
-        
-        <!-- Plan Toggle -->
-        <div class="flex items-center justify-center space-x-4 mb-12">
-            <span class="text-purple-200">Monthly</span>
-            <div class="relative">
-                <input type="checkbox" id="yearlyToggle" class="sr-only" />
-                <label for="yearlyToggle" class="flex items-center cursor-pointer">
-                    <div class="relative">
-                        <div class="block bg-white bg-opacity-20 w-14 h-8 rounded-full"></div>
-                        <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
-                    </div>
-                </label>
-            </div>
-            <span class="text-purple-200">
-                Yearly 
-                <span class="bg-green-500 bg-opacity-30 text-green-300 px-2 py-1 rounded-full text-xs ml-2">
-                    Save 20%
-                </span>
-            </span>
-        </div>
     </div>
     
-    <!-- Pricing Plans -->
+    <!-- Pricing Plans - Only Free and Pro -->
     <div class="container mx-auto px-4 pb-20">
-        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             
             <!-- Free Plan -->
             <div class="card-gradient rounded-2xl p-8 hover-scale">
@@ -112,8 +86,8 @@
                         <i class="fas fa-seedling text-5xl text-green-300"></i>
                     </div>
                     
-                    <h3 class="text-2xl font-bold mb-2">Starter</h3>
-                    <p class="text-purple-200 mb-6">Perfect for trying it out</p>
+                    <h3 class="text-2xl font-bold mb-2">Free</h3>
+                    <p class="text-purple-200 mb-6">Perfect for getting started</p>
                     
                     <div class="mb-8">
                         <div class="text-5xl font-bold mb-2">
@@ -129,7 +103,7 @@
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
-                            <span>Basic chart types</span>
+                            <span>All chart types</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
@@ -137,11 +111,7 @@
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
-                            <span>Public sharing links</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
-                            <span>Community support</span>
+                            <span>Public sharing</span>
                         </li>
                     </ul>
                     
@@ -164,13 +134,12 @@
                         <i class="fas fa-rocket text-5xl text-purple-300"></i>
                     </div>
                     
-                    <h3 class="text-2xl font-bold mb-2">Professional</h3>
-                    <p class="text-purple-200 mb-6">For serious data professionals</p>
+                    <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                    <p class="text-purple-200 mb-6">For serious professionals</p>
                     
                     <div class="mb-8">
                         <div class="text-5xl font-bold mb-2">
-                            <span class="text-purple-300 monthly-price">$20</span>
-                            <span class="text-purple-300 yearly-price hidden">$16</span>
+                            <span class="text-purple-300">$20</span>
                         </div>
                         <p class="text-purple-300">per month</p>
                     </div>
@@ -181,12 +150,8 @@
                             <span><strong>Unlimited</strong> dashboards</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-chart-pie text-purple-300 mr-3 flex-shrink-0"></i>
-                            <span><strong>All</strong> chart types & styles</span>
-                        </li>
-                        <li class="flex items-center">
                             <i class="fas fa-database text-purple-300 mr-3 flex-shrink-0"></i>
-                            <span><strong>Permanent</strong> data storage</span>
+                            <span><strong>Permanent</strong> storage</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-lock text-purple-300 mr-3 flex-shrink-0"></i>
@@ -212,147 +177,65 @@
                     <p class="text-xs text-purple-300 mt-3">No credit card required</p>
                 </div>
             </div>
+        </div>
+        
+        <!-- FAQ Section -->
+        <div class="max-w-4xl mx-auto mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Frequently Asked Questions</h2>
+            </div>
             
-            <!-- Enterprise Plan -->
-            <div class="enterprise-glow rounded-2xl p-8 hover-scale">
-                <div class="text-center">
-                    <div class="mb-6">
-                        <i class="fas fa-crown text-5xl text-yellow-300"></i>
-                    </div>
-                    
-                    <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
-                    <p class="text-purple-200 mb-6">For teams and organizations</p>
-                    
-                    <div class="mb-8">
-                        <div class="text-5xl font-bold mb-2">
-                            <span class="text-yellow-300">$99</span>
-                        </div>
-                        <p class="text-purple-300">per month</p>
-                    </div>
-                    
-                    <ul class="text-left space-y-4 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-users text-yellow-300 mr-3 flex-shrink-0"></i>
-                            <span><strong>Unlimited</strong> team members</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-shield-alt text-yellow-300 mr-3 flex-shrink-0"></i>
-                            <span><strong>Advanced</strong> security</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-server text-yellow-300 mr-3 flex-shrink-0"></i>
-                            <span><strong>Dedicated</strong> instance</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-cogs text-yellow-300 mr-3 flex-shrink-0"></i>
-                            <span><strong>API</strong> access</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-chart-bar text-yellow-300 mr-3 flex-shrink-0"></i>
-                            <span><strong>Advanced</strong> analytics</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone text-yellow-300 mr-3 flex-shrink-0"></i>
-                            <span><strong>Phone</strong> support</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-handshake text-yellow-300 mr-3 flex-shrink-0"></i>
-                            <span><strong>Dedicated</strong> account manager</span>
-                        </li>
-                    </ul>
-                    
-                    <button class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-4 px-6 rounded-xl hover:from-yellow-500 hover:to-yellow-600 transition-all">
-                        Contact Sales
-                    </button>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card-gradient rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-3">
+                        <i class="fas fa-question-circle text-purple-300 mr-2"></i>
+                        Can I cancel anytime?
+                    </h3>
+                    <p class="text-purple-100">
+                        Yes! Cancel your subscription at any time. No questions asked, no fees.
+                    </p>
+                </div>
+                
+                <div class="card-gradient rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-3">
+                        <i class="fas fa-question-circle text-purple-300 mr-2"></i>
+                        Is my data secure?
+                    </h3>
+                    <p class="text-purple-100">
+                        Absolutely. Enterprise-grade encryption and we never share your data.
+                    </p>
+                </div>
+                
+                <div class="card-gradient rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-3">
+                        <i class="fas fa-question-circle text-purple-300 mr-2"></i>
+                        Do I need to know code?
+                    </h3>
+                    <p class="text-purple-100">
+                        Not at all! Just upload your CSV and we handle everything else.
+                    </p>
+                </div>
+                
+                <div class="card-gradient rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-3">
+                        <i class="fas fa-question-circle text-purple-300 mr-2"></i>
+                        How big can my files be?
+                    </h3>
+                    <p class="text-purple-100">
+                        Free: up to 5MB. Pro: up to 50MB with faster processing.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- FAQ Section -->
-    <div class="container mx-auto px-4 py-16">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">Frequently Asked Questions</h2>
+    <!-- Footer -->
+    <footer class="container mx-auto px-4 py-12 text-center border-t border-white/10">
+        <div class="flex items-center justify-center space-x-3 mb-4">
+            <i class="fas fa-chart-line text-2xl text-purple-300"></i>
+            <span class="text-xl font-bold">ChartFlow</span>
         </div>
-        
-        <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-            <div class="card-gradient rounded-xl p-6">
-                <h3 class="text-xl font-bold mb-3">
-                    <i class="fas fa-question-circle text-purple-300 mr-2"></i>
-                    Can I cancel anytime?
-                </h3>
-                <p class="text-purple-100">
-                    Yes! You can cancel your subscription at any time. No questions asked, no cancellation fees.
-                </p>
-            </div>
-            
-            <div class="card-gradient rounded-xl p-6">
-                <h3 class="text-xl font-bold mb-3">
-                    <i class="fas fa-question-circle text-purple-300 mr-2"></i>
-                    Is my data secure?
-                </h3>
-                <p class="text-purple-100">
-                    Absolutely. We use enterprise-grade encryption and never share your data with third parties.
-                </p>
-            </div>
-            
-            <div class="card-gradient rounded-xl p-6">
-                <h3 class="text-xl font-bold mb-3">
-                    <i class="fas fa-question-circle text-purple-300 mr-2"></i>
-                    What file formats are supported?
-                </h3>
-                <p class="text-purple-100">
-                    We support CSV, Excel (.xlsx), Google Sheets, and JSON. More formats coming soon!
-                </p>
-            </div>
-            
-            <div class="card-gradient rounded-xl p-6">
-                <h3 class="text-xl font-bold mb-3">
-                    <i class="fas fa-question-circle text-purple-300 mr-2"></i>
-                    Do you offer student discounts?
-                </h3>
-                <p class="text-purple-100">
-                    Yes! Students get 50% off Pro plans. Contact us with your .edu email for verification.
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <!-- CTA Section -->
-    <div class="container mx-auto px-4 py-16 text-center">
-        <div class="max-w-3xl mx-auto card-gradient rounded-2xl p-12">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">
-                Ready to Transform Your Data?
-            </h2>
-            <p class="text-xl text-purple-100 mb-8">
-                Join thousands of professionals who've already made their data beautiful.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button class="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-8 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all">
-                    Start Free Trial
-                </button>
-                <button class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-bold py-4 px-8 rounded-xl transition-all">
-                    Schedule Demo
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Yearly toggle functionality
-        const yearlyToggle = document.getElementById('yearlyToggle');
-        const monthlyPrices = document.querySelectorAll('.monthly-price');
-        const yearlyPrices = document.querySelectorAll('.yearly-price');
-        
-        yearlyToggle.addEventListener('change', function() {
-            if (this.checked) {
-                monthlyPrices.forEach(price => price.classList.add('hidden'));
-                yearlyPrices.forEach(price => price.classList.remove('hidden'));
-            } else {
-                monthlyPrices.forEach(price => price.classList.remove('hidden'));
-                yearlyPrices.forEach(price => price.classList.add('hidden'));
-            }
-        });
-    </script>
+        <p class="text-purple-300">Turn your data into beautiful charts that flow ✨</p>
+    </footer>
 </body>
 </html>
