@@ -1,252 +1,237 @@
 export default function Pricing() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">Pricing</h1>
-            </div>
-            <a
-              href="/"
-              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            >
-              ← Back to Builder
-            </a>
-          </div>
-        </div>
-      </div>
+    <>
+      <style jsx global>{`
+        .animated-gradient {
+          background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+          background-size: 400% 400%;
+          animation: gradient-shift 15s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        
+        .card-gradient {
+          background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .hover-scale { 
+          transition: all 0.3s ease; 
+        }
+        .hover-scale:hover { 
+          transform: scale(1.05) translateY(-5px); 
+          box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+        
+        .glow-pulse {
+          animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+          0%, 100% { 
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+          }
+          50% { 
+            box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 60px rgba(118, 75, 162, 0.6);
+          }
+        }
+      `}</style>
 
-      {/* Pricing Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold text-gray-900">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="mt-4 text-xl text-gray-600">
-            Start free, upgrade when you need more power
+      <div className="animated-gradient min-h-screen text-white">
+        {/* Navigation */}
+        <nav className="container mx-auto px-4 py-6">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-3">
+              <i className="fas fa-chart-line text-3xl text-white"></i>
+              <span className="text-2xl font-bold">ChartFlow</span>
+            </div>
+            <div className="hidden md:flex space-x-6">
+              <a href="/" className="hover:text-purple-200 transition-colors">Home</a>
+              <a href="#" className="text-purple-300 font-bold">Pricing</a>
+              <a href="#" className="hover:text-purple-200 transition-colors">Contact</a>
+            </div>
+          </div>
+        </nav>
+        
+        {/* Header */}
+        <div className="container mx-auto px-4 py-16 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <i className="fas fa-gem text-purple-300 mr-3"></i>
+            Simple Pricing
+          </h1>
+          <p className="text-xl md:text-2xl text-purple-100 max-w-3xl mx-auto mb-8">
+            Start free and upgrade when you're ready. No surprises, just beautiful dashboards.
           </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {/* Free Plan */}
-          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-8">
-            <h3 className="text-2xl font-bold text-gray-900">Free</h3>
-            <p className="mt-4 text-gray-500">Perfect for trying out the service</p>
-            <p className="mt-8">
-              <span className="text-4xl font-extrabold text-gray-900">$0</span>
-              <span className="text-base font-medium text-gray-500">/month</span>
-            </p>
-            <ul className="mt-8 space-y-4">
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">3 dashboards</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">7-day data retention</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">Basic charts (bar, line, pie)</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">Shareable links</span>
-              </li>
-            </ul>
-            <button className="mt-8 w-full bg-gray-200 text-gray-800 rounded-lg py-3 px-4 hover:bg-gray-300">
-              Get Started Free
-            </button>
-          </div>
-
-          {/* Pro Plan */}
-          <div className="bg-indigo-50 border-2 border-indigo-200 rounded-lg shadow-sm p-8 relative">
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <span className="bg-indigo-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                Most Popular
-              </span>
+        
+        {/* Pricing Plans - Only Free and Pro */}
+        <div className="container mx-auto px-4 pb-20">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            
+            {/* Free Plan */}
+            <div className="card-gradient rounded-2xl p-8 hover-scale">
+              <div className="text-center">
+                <div className="mb-6">
+                  <i className="fas fa-seedling text-5xl text-green-300"></i>
+                </div>
+                
+                <h3 className="text-2xl font-bold mb-2">Free</h3>
+                <p className="text-purple-200 mb-6">Perfect for getting started</p>
+                
+                <div className="mb-8">
+                  <div className="text-5xl font-bold mb-2">
+                    <span className="text-green-300">$0</span>
+                  </div>
+                  <p className="text-purple-300">Forever free</p>
+                </div>
+                
+                <ul className="text-left space-y-4 mb-8">
+                  <li className="flex items-center">
+                    <i className="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
+                    <span>3 dashboard projects</span>
+                  </li>
+                  <li className="flex items-center">
+                    <i className="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
+                    <span>All chart types</span>
+                  </li>
+                  <li className="flex items-center">
+                    <i className="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
+                    <span>7-day data storage</span>
+                  </li>
+                  <li className="flex items-center">
+                    <i className="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
+                    <span>Public sharing</span>
+                  </li>
+                </ul>
+                
+                <button className="w-full bg-gradient-to-r from-green-400 to-green-500 text-white font-bold py-4 px-6 rounded-xl hover:from-green-500 hover:to-green-600 transition-all">
+                  Get Started Free
+                </button>
+              </div>
             </div>
-            <h3 className="text-2xl font-bold text-indigo-900">Pro</h3>
-            <p className="mt-4 text-indigo-700">For professionals and small teams</p>
-            <p className="mt-8">
-              <span className="text-4xl font-extrabold text-indigo-900">$20</span>
-              <span className="text-base font-medium text-indigo-700">/month</span>
-            </p>
-            <ul className="mt-8 space-y-4">
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-indigo-700">Unlimited dashboards</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-indigo-700">Permanent storage</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-indigo-700">Custom branding</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-indigo-700">Password protection</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-indigo-700">Export as images</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-indigo-700">Priority support</span>
-              </li>
-            </ul>
-            <button className="mt-8 w-full bg-indigo-600 text-white rounded-lg py-3 px-4 hover:bg-indigo-700">
-              Start 7-Day Free Trial
-            </button>
+            
+            {/* Pro Plan */}
+            <div className="card-gradient rounded-2xl p-8 hover-scale border-2 border-purple-400 relative glow-pulse">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-full text-sm font-bold">
+                  ⭐ MOST POPULAR
+                </span>
+              </div>
+              
+              <div className="text-center">
+                <div className="mb-6">
+                  <i className="fas fa-rocket text-5xl text-purple-300"></i>
+                </div>
+                
+                <h3 className="text-2xl font-bold mb-2">Pro</h3>
+                <p className="text-purple-200 mb-6">For serious professionals</p>
+                
+                <div className="mb-8">
+                  <div className="text-5xl font-bold mb-2">
+                    <span className="text-purple-300">$20</span>
+                  </div>
+                  <p className="text-purple-300">per month</p>
+                </div>
+                
+                <ul className="text-left space-y-4 mb-8">
+                  <li className="flex items-center">
+                    <i className="fas fa-infinity text-purple-300 mr-3 flex-shrink-0"></i>
+                    <span><strong>Unlimited</strong> dashboards</span>
+                  </li>
+                  <li className="flex items-center">
+                    <i className="fas fa-database text-purple-300 mr-3 flex-shrink-0"></i>
+                    <span><strong>Permanent</strong> storage</span>
+                  </li>
+                  <li className="flex items-center">
+                    <i className="fas fa-lock text-purple-300 mr-3 flex-shrink-0"></i>
+                    <span><strong>Password</strong> protection</span>
+                  </li>
+                  <li className="flex items-center">
+                    <i className="fas fa-palette text-purple-300 mr-3 flex-shrink-0"></i>
+                    <span><strong>Custom</strong> branding</span>
+                  </li>
+                  <li className="flex items-center">
+                    <i className="fas fa-download text-purple-300 mr-3 flex-shrink-0"></i>
+                    <span><strong>HD exports</strong> (PNG, PDF)</span>
+                  </li>
+                  <li className="flex items-center">
+                    <i className="fas fa-headset text-purple-300 mr-3 flex-shrink-0"></i>
+                    <span><strong>Priority</strong> support</span>
+                  </li>
+                </ul>
+                
+                <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all">
+                  Start 14-Day Free Trial
+                </button>
+                <p className="text-xs text-purple-300 mt-3">No credit card required</p>
+              </div>
+            </div>
           </div>
-
-          {/* Team Plan */}
-          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-8">
-            <h3 className="text-2xl font-bold text-gray-900">Team</h3>
-            <p className="mt-4 text-gray-500">For growing teams and agencies</p>
-            <p className="mt-8">
-              <span className="text-4xl font-extrabold text-gray-900">$50</span>
-              <span className="text-base font-medium text-gray-500">/month</span>
-            </p>
-            <ul className="mt-8 space-y-4">
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">Everything in Pro</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">Up to 10 team members</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">Collaboration features</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">Admin dashboard</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">White-label option</span>
-              </li>
-              <li className="flex">
-                <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span className="ml-3 text-gray-500">Dedicated support</span>
-              </li>
-            </ul>
-            <button className="mt-8 w-full bg-gray-800 text-white rounded-lg py-3 px-4 hover:bg-gray-900">
-              Contact Sales
-            </button>
-          </div>
-        </div>
-
-        {/* FAQ Section */}
-        <div className="mt-20">
-          <h3 className="text-2xl font-bold text-gray-900 text-center mb-12">
-            Frequently Asked Questions
-          </h3>
           
-          <div className="max-w-3xl mx-auto space-y-8">
-            <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">
-                What file formats do you support?
-              </h4>
-              <p className="text-gray-600">
-                Currently we support CSV files. We're working on adding Excel (.xlsx), Google Sheets, and JSON support soon.
-              </p>
+          {/* FAQ Section */}
+          <div className="max-w-4xl mx-auto mt-20">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Frequently Asked Questions</h2>
             </div>
             
-            <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">
-                How secure is my data?
-              </h4>
-              <p className="text-gray-600">
-                Your data is encrypted at rest and in transit. We use enterprise-grade security with Supabase and never share your data with third parties.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">
-                Can I cancel anytime?
-              </h4>
-              <p className="text-gray-600">
-                Yes! You can cancel your subscription at any time. Your dashboards will remain accessible until the end of your billing period.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">
-                Do you offer refunds?
-              </h4>
-              <p className="text-gray-600">
-                We offer a 7-day free trial so you can test everything before paying. If you're not satisfied, we offer a 30-day money-back guarantee.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">
-                What if I need help?
-              </h4>
-              <p className="text-gray-600">
-                We provide email support for all users and priority support for Pro+ customers. Check out our help center or contact us directly.
-              </p>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="card-gradient rounded-xl p-6">
+                <h3 className="text-xl font-bold mb-3">
+                  <i className="fas fa-question-circle text-purple-300 mr-2"></i>
+                  Can I cancel anytime?
+                </h3>
+                <p className="text-purple-100">
+                  Yes! Cancel your subscription at any time. No questions asked, no fees.
+                </p>
+              </div>
+              
+              <div className="card-gradient rounded-xl p-6">
+                <h3 className="text-xl font-bold mb-3">
+                  <i className="fas fa-question-circle text-purple-300 mr-2"></i>
+                  Is my data secure?
+                </h3>
+                <p className="text-purple-100">
+                  Absolutely. Enterprise-grade encryption and we never share your data.
+                </p>
+              </div>
+              
+              <div className="card-gradient rounded-xl p-6">
+                <h3 className="text-xl font-bold mb-3">
+                  <i className="fas fa-question-circle text-purple-300 mr-2"></i>
+                  Do I need to know code?
+                </h3>
+                <p className="text-purple-100">
+                  Not at all! Just upload your CSV and we handle everything else.
+                </p>
+              </div>
+              
+              <div className="card-gradient rounded-xl p-6">
+                <h3 className="text-xl font-bold mb-3">
+                  <i className="fas fa-question-circle text-purple-300 mr-2"></i>
+                  How big can my files be?
+                </h3>
+                <p className="text-purple-100">
+                  Free: up to 5MB. Pro: up to 50MB with faster processing.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* CTA Section */}
-        <div className="mt-20 text-center bg-indigo-50 rounded-lg p-12">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
-            Ready to transform your data?
-          </h3>
-          <p className="text-xl text-gray-600 mb-8">
-            Join hundreds of businesses creating beautiful dashboards in seconds
-          </p>
-          <a
-            href="/"
-            className="inline-flex items-center bg-indigo-600 text-white px-8 py-4 rounded-lg hover:bg-indigo-700 text-lg font-medium"
-          >
-            Start Your Free Trial →
-          </a>
-        </div>
+        
+        {/* Footer */}
+        <footer className="container mx-auto px-4 py-12 text-center border-t border-white/10">
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            <i className="fas fa-chart-line text-2xl text-purple-300"></i>
+            <span className="text-xl font-bold">ChartFlow</span>
+          </div>
+          <p className="text-purple-300">Turn your data into beautiful charts that flow ✨</p>
+        </footer>
       </div>
-    </div>
+    </>
   )
 }
