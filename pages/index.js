@@ -5,6 +5,42 @@ export default function Home() {
   const [csvData, setCsvData] = useState(null)
   const [fileName, setFileName] = useState('')
   const [processing, setProcessing] = useState(false)
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    setFileName(file.name)
+    setProcessing(true)
+    // Simple processing simulation
+    setTimeout(() => {
+      setProcessing(false)
+      alert('🎉 Dashboard created! (Demo mode - full functionality coming soon)')
+    }, 2000)
+  }
+
+  const handleProUpgrade = async () => {
+    setCheckoutLoading(true)
+    try {
+      const response = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || 'price_1OSk1QJxXxXxXxXxXxXxXxXx',
+          successUrl: `${window.location.origin}/success`,
+          cancelUrl: `${window.location.origin}/cancel`,
+        }),
+      })
+      const { url } = await response.json()
+      if (url) window.location.href = url
+    } catch (error) {
+      console.error('Checkout error:', error)
+      alert('Demo mode - Stripe checkout coming soon!')
+    } finally {
+      setCheckoutLoading(false)
+    }
+  }
 
   return (
     <>
@@ -140,20 +176,30 @@ export default function Home() {
                             <h2 className="text-3xl font-bold text-white mb-4">Drop Your CSV Magic Here</h2>
                             <p className="text-purple-200 mb-8 text-lg">Watch your boring spreadsheet data transform into beautiful insights ✨</p>
                             
-                            <div className="upload-area rounded-2xl p-12 mb-8 cursor-pointer group">
-                                <input type="file" className="hidden" accept=".csv" />
+                            <div className="upload-area rounded-2xl p-12 mb-8 cursor-pointer group" onClick={() => document.getElementById('csvFileInput').click()}>
+                                <input 
+                                  id="csvFileInput"
+                                  type="file" 
+                                  className="hidden" 
+                                  accept=".csv" 
+                                  onChange={handleFileUpload}
+                                />
                                 <div className="text-center">
                                     <i className="fas fa-cloud-upload-alt text-5xl text-purple-300 mb-4 group-hover:text-white transition-colors"></i>
                                     <p className="text-purple-100 group-hover:text-white transition-colors">
-                                        Drag & drop your CSV file here, or click to browse
+                                        {processing ? 'Processing your file...' : fileName || 'Drag & drop your CSV file here, or click to browse'}
                                     </p>
                                     <p className="text-sm text-purple-300 mt-2">Supports files up to 50MB • Instant processing</p>
                                 </div>
                             </div>
                             
-                            <button className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-bold text-lg px-8 py-4 rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 hover-scale glow-pulse">
-                                <i className="fas fa-rocket mr-3"></i>
-                                Create My Dashboard
+                            <button 
+                              className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-bold text-lg px-8 py-4 rounded-2xl hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 hover-scale glow-pulse disabled:opacity-50"
+                              onClick={() => document.getElementById('csvFileInput').click()}
+                              disabled={processing}
+                            >
+                                <i className={`fas ${processing ? 'fa-spinner fa-spin' : 'fa-rocket'} mr-3`}></i>
+                                {processing ? 'Creating Dashboard...' : 'Create My Dashboard'}
                             </button>
                         </div>
                     </div>
@@ -250,7 +296,10 @@ export default function Home() {
                                 </li>
                             </ul>
                             
-                            <button className="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white font-bold py-4 px-6 rounded-2xl hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300 hover-scale">
+                            <button 
+                              className="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white font-bold py-4 px-6 rounded-2xl hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300 hover-scale"
+                              onClick={() => document.getElementById('csvFileInput').click()}
+                            >
                                 Start Building Now
                                 <i className="fas fa-arrow-right ml-2"></i>
                             </button>
@@ -299,9 +348,22 @@ export default function Home() {
                                     </li>
                                 </ul>
                                 
-                                <button className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-black py-4 px-6 rounded-2xl text-lg shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 hover-scale mb-3">
-                                    Start Free Trial
-                                    <i className="fas fa-sparkles ml-2"></i>
+                                <button 
+                                  className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-black py-4 px-6 rounded-2xl text-lg shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 hover-scale mb-3 disabled:opacity-50"
+                                  onClick={handleProUpgrade}
+                                  disabled={checkoutLoading}
+                                >
+                                    {checkoutLoading ? (
+                                      <>
+                                        <i className="fas fa-spinner fa-spin mr-2"></i>
+                                        Loading...
+                                      </>
+                                    ) : (
+                                      <>
+                                        Start Free Trial
+                                        <i className="fas fa-sparkles ml-2"></i>
+                                      </>
+                                    )}
                                 </button>
                                 <p className="text-purple-300 text-sm">No credit card required • Cancel anytime</p>
                             </div>

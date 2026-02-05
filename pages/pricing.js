@@ -1,6 +1,30 @@
 import Head from 'next/head'
+import { useState } from 'react'
 
 export default function Pricing() {
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
+
+  const handleProUpgrade = async () => {
+    setCheckoutLoading(true)
+    try {
+      const response = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || 'price_1OSk1QJxXxXxXxXxXxXxXxXx',
+          successUrl: `${window.location.origin}/success`,
+          cancelUrl: `${window.location.origin}/cancel`,
+        }),
+      })
+      const { url } = await response.json()
+      if (url) window.location.href = url
+    } catch (error) {
+      console.error('Checkout error:', error)
+      alert('Demo mode - Stripe checkout coming soon!')
+    } finally {
+      setCheckoutLoading(false)
+    }
+  }
   return (
     <>
       <Head>
@@ -118,7 +142,10 @@ export default function Pricing() {
                   </li>
                 </ul>
                 
-                <button className="w-full bg-gradient-to-r from-green-400 to-green-500 text-white font-bold py-4 px-6 rounded-xl hover:from-green-500 hover:to-green-600 transition-all">
+                <button 
+                  className="w-full bg-gradient-to-r from-green-400 to-green-500 text-white font-bold py-4 px-6 rounded-xl hover:from-green-500 hover:to-green-600 transition-all"
+                  onClick={() => window.location.href = '/'}
+                >
                   Get Started Free
                 </button>
               </div>
@@ -174,8 +201,19 @@ export default function Pricing() {
                   </li>
                 </ul>
                 
-                <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all">
-                  Start 14-Day Free Trial
+                <button 
+                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50"
+                  onClick={handleProUpgrade}
+                  disabled={checkoutLoading}
+                >
+                  {checkoutLoading ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin mr-2"></i>
+                      Loading...
+                    </>
+                  ) : (
+                    'Start 14-Day Free Trial'
+                  )}
                 </button>
                 <p className="text-xs text-purple-300 mt-3">No credit card required</p>
               </div>
