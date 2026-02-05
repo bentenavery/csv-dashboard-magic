@@ -294,25 +294,6 @@
 
     <script>
         function triggerFileUpload() {
-            // Add visual feedback when clicked
-            const uploadArea = document.querySelector('.upload-area');
-            const uploadText = document.getElementById('uploadText');
-            
-            // Show immediate click feedback
-            uploadArea.style.transform = 'scale(0.98)';
-            uploadArea.style.borderColor = 'rgb(168 85 247)';
-            uploadText.textContent = '📁 Opening file browser...';
-            
-            // Reset visual feedback
-            setTimeout(() => {
-                uploadArea.style.transform = '';
-                uploadArea.style.borderColor = 'rgba(255,255,255,0.3)';
-                if (uploadText.textContent === '📁 Opening file browser...') {
-                    uploadText.textContent = 'Drag & drop your CSV file here, or click to browse';
-                }
-            }, 500);
-            
-            // Trigger file input
             document.getElementById('csvFileInput').click();
         }
 
@@ -323,85 +304,36 @@
             if (file) {
                 const uploadText = document.getElementById('uploadText');
                 const mainButton = document.getElementById('mainButton');
-                const uploadArea = document.querySelector('.upload-area');
                 
                 // Update UI to show processing
-                uploadText.textContent = '🚀 Processing your file...';
+                uploadText.textContent = 'Processing your file...';
                 mainButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>Creating Dashboard...';
                 mainButton.disabled = true;
-                uploadArea.style.borderColor = 'rgb(34 197 94)';
-                uploadArea.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
                 
-                // Simulate processing with better feedback
+                // Simulate processing
                 setTimeout(() => {
-                    uploadText.innerHTML = `
-                        <div class="text-center">
-                            <i class="fas fa-check-circle text-green-400 text-4xl mb-4"></i>
-                            <div class="text-green-400 font-bold text-xl mb-2">✅ UPLOAD SUCCESSFUL!</div>
-                            <div class="text-white">"${file.name}" processed successfully</div>
-                            <div class="text-purple-200 text-sm mt-2">📊 Demo mode: In production, this would generate your dashboard</div>
-                        </div>
-                    `;
+                    alert('🎉 Demo successful! Your CSV "' + file.name + '" would create a beautiful dashboard.\n\nFull functionality coming soon - this proves the upload works!');
                     
-                    // Add success styling
-                    uploadArea.style.borderColor = 'rgb(34 197 94)';
-                    uploadArea.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
-                    
-                    // Update button to show success
-                    mainButton.innerHTML = '<i class="fas fa-check mr-3"></i>Upload Complete!';
-                    mainButton.className = mainButton.className.replace('from-pink-500 via-purple-500 to-indigo-500', 'from-green-400 to-emerald-500');
+                    // Reset UI
+                    uploadText.textContent = 'Ready for another file! Click to browse again.';
+                    mainButton.innerHTML = '<i class="fas fa-rocket mr-3"></i>Create My Dashboard';
                     mainButton.disabled = false;
-                    
-                    // Reset after 5 seconds
-                    setTimeout(() => {
-                        uploadText.textContent = 'Drag & drop your CSV file here, or click to browse';
-                        mainButton.innerHTML = '<i class="fas fa-rocket mr-3"></i>Create My Dashboard';
-                        mainButton.className = mainButton.className.replace('from-green-400 to-emerald-500', 'from-pink-500 via-purple-500 to-indigo-500');
-                        uploadArea.style.borderColor = 'rgba(255,255,255,0.3)';
-                        uploadArea.style.backgroundColor = '';
-                    }, 5000);
                 }, 2000);
             }
         }
 
         function handleProUpgrade() {
             const proButton = document.getElementById('proButton');
-            const originalHTML = proButton.innerHTML;
-            
-            proButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Connecting to Stripe...';
+            proButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
             proButton.disabled = true;
             
-            // Show visual feedback instead of alert
+            // Simulate checkout process
             setTimeout(() => {
-                // Create success message div
-                const successMessage = document.createElement('div');
-                successMessage.className = 'mt-4 p-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-xl text-white text-center';
-                successMessage.innerHTML = `
-                    <div class="flex items-center justify-center mb-2">
-                        <i class="fas fa-check-circle text-2xl mr-2"></i>
-                        <span class="font-bold">DEMO MODE ACTIVE</span>
-                    </div>
-                    <div class="text-sm">
-                        ✅ Stripe integration configured<br>
-                        💳 Ready to process $20/month payments<br>
-                        🚀 In production: redirects to checkout
-                    </div>
-                `;
+                alert('🚀 Demo mode: This would redirect to Stripe checkout for $20/month Pro plan.\n\nStripe integration ready for production!');
                 
-                // Insert success message after the button
-                proButton.parentElement.insertBefore(successMessage, proButton.nextSibling);
-                
-                // Update button to show demo status
-                proButton.innerHTML = '<i class="fas fa-cog mr-2"></i>Demo Mode - Integration Ready';
-                proButton.className = proButton.className.replace('from-pink-500 via-purple-500 to-indigo-500', 'from-green-400 to-emerald-500');
-                
-                // Reset everything after 5 seconds
-                setTimeout(() => {
-                    successMessage.remove();
-                    proButton.innerHTML = originalHTML;
-                    proButton.className = proButton.className.replace('from-green-400 to-emerald-500', 'from-pink-500 via-purple-500 to-indigo-500');
-                    proButton.disabled = false;
-                }, 5000);
+                // Reset button
+                proButton.innerHTML = 'Start Free Trial<i class="fas fa-sparkles ml-2"></i>';
+                proButton.disabled = false;
             }, 1500);
         }
 
@@ -416,25 +348,6 @@
                     });
                 }
             });
-        });
-
-        // Verify all elements exist when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 ChartFlow JavaScript loaded successfully!');
-            console.log('✅ File input exists:', !!document.getElementById('csvFileInput'));
-            console.log('✅ Upload text exists:', !!document.getElementById('uploadText'));
-            console.log('✅ Main button exists:', !!document.getElementById('mainButton'));
-            console.log('✅ Pro button exists:', !!document.getElementById('proButton'));
-            console.log('✅ Upload area exists:', !!document.querySelector('.upload-area'));
-            
-            // Add visual indicator that JavaScript is working
-            const footer = document.querySelector('footer');
-            if (footer) {
-                const jsIndicator = document.createElement('div');
-                jsIndicator.className = 'text-center text-green-400 text-sm mb-4';
-                jsIndicator.innerHTML = '<i class="fas fa-check-circle mr-2"></i>JavaScript Active - Buttons Ready';
-                footer.prepend(jsIndicator);
-            }
         });
     </script>
 </body>
