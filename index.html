@@ -479,12 +479,8 @@
                 
                 // Simulate processing
                 setTimeout(() => {
-                    alert('🎉 Dashboard created! Your CSV "' + file.name + '" is ready for visualization.\n\nRefresh to upload another file or upgrade to Pro for permanent storage!');
-                    
-                    // Reset UI
-                    uploadText.textContent = 'Ready for another file! Click to browse again.';
-                    mainButton.innerHTML = '<i class="fas fa-rocket mr-3"></i>Create My Dashboard';
-                    mainButton.disabled = false;
+                    // Redirect to dashboard instead of showing blocking popup
+                    window.location.href = '/dashboard.html?file=' + encodeURIComponent(file.name);
                 }, 2000);
             }
         }
@@ -516,7 +512,7 @@
                     
                     // Handle payment errors  
                     console.error('Stripe checkout error:', error);
-                    alert('Payment system temporarily unavailable. Please try again in a few minutes or contact support.');
+                    console.log('Payment system temporarily unavailable. Please try again in a few minutes or contact support.');
                     
                     // Reset button
                     proButton.innerHTML = 'Start Free Trial<i class="fas fa-sparkles ml-2"></i>';
@@ -524,7 +520,7 @@
                 }
             } catch (error) {
                 console.error('Failed to initialize Stripe:', error);
-                alert('Unable to load payment system. Please try again.');
+                console.log('Unable to load payment system. Please try again.');
                 
                 // Reset button
                 proButton.innerHTML = 'Start Free Trial<i class="fas fa-sparkles ml-2"></i>';
