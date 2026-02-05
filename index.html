@@ -6,6 +6,7 @@
     <title>ChartFlow - Turn CSV Into Charts That Flow Beautifully</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         .animated-gradient {
             background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
@@ -327,14 +328,29 @@
             proButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
             proButton.disabled = true;
             
-            // Simulate checkout process
-            setTimeout(() => {
-                alert('🚀 Demo mode: This would redirect to Stripe checkout for $20/month Pro plan.\n\nStripe integration ready for production!');
-                
+            // Real Stripe checkout process
+            const stripe = Stripe('pk_live_51Lta0wDrwQ40jmgDpyhEgcOv4zMUHl66lgv3gbMXmOuBGRortIDpdnTdXN9sovyXjVO9QU9U5uHBHIksbZv21GBW00GqwreBs2');
+            
+            fetch('/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    price_id: 'price_1SxFaTDrwQ40jmgDgwXhWuly'
+                })
+            })
+            .then(response => response.json())
+            .then(session => {
+                return stripe.redirectToCheckout({ sessionId: session.id });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again.');
                 // Reset button
                 proButton.innerHTML = 'Start Free Trial<i class="fas fa-sparkles ml-2"></i>';
                 proButton.disabled = false;
-            }, 1500);
+            });
         }
 
         // Add smooth scrolling for anchor links
