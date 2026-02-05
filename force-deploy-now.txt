@@ -1,1 +1,1 @@
-FORCE DEPLOY: $(date +"%Y-%m-%d %H:%M:%S")
+VERCEL_FORCE_DEPLOY=1770254513
