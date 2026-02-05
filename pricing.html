@@ -6,6 +6,7 @@
     <title>Pricing - ChartFlow</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         .animated-gradient {
             background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
@@ -243,12 +244,39 @@
             proButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
             proButton.disabled = true;
             
-            setTimeout(() => {
-                alert('🚀 Demo mode: This would redirect to Stripe checkout for $20/month Pro plan.\n\nStripe integration ready for production!');
+            try {
+                console.log('🚀 Initializing Stripe checkout...');
                 
+                // Direct Stripe checkout using the live keys
+                const stripe = Stripe('pk_live_51Lta0wDrwQ40jmgDpyhEgcOv4zMUHl66lgv3gbMXmOuBGRortIDpdnTdXN9sovyXjVO9QU9U5uHBHIksbZv21GBW00GqwreBs2');
+                
+                stripe.redirectToCheckout({
+                    lineItems: [{
+                        price: 'price_1SxHGMDrwQ40jmgDO7cSLw03', // Live price ID  
+                        quantity: 1,
+                    }],
+                    mode: 'subscription',
+                    successUrl: window.location.origin + '/success?session_id={CHECKOUT_SESSION_ID}',
+                    cancelUrl: window.location.origin + '/cancel',
+                    // Let customer enter their email
+                }).then((result) => {
+                    if (result.error) {
+                        console.error('Stripe checkout error:', result.error);
+                        alert('Payment system temporarily unavailable. Please try again in a few minutes or contact support.');
+                        
+                        // Reset button
+                        proButton.innerHTML = 'Start 14-Day Free Trial';
+                        proButton.disabled = false;
+                    }
+                });
+            } catch (error) {
+                console.error('Failed to initialize Stripe:', error);
+                alert('Unable to load payment system. Please try again.');
+                
+                // Reset button
                 proButton.innerHTML = 'Start 14-Day Free Trial';
                 proButton.disabled = false;
-            }, 1500);
+            }
         }
     </script>
 </body>
