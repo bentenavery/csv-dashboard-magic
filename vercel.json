@@ -3,11 +3,23 @@
   "name": "chartflow",
   "builds": [
     {
-      "src": "*.html",
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "pricing.html",
       "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/pricing",
+      "dest": "/pricing.html"
+    },
     {
       "src": "/(.*)",
       "dest": "/$1"
@@ -19,7 +31,15 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Pragma", 
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
         }
       ]
     }
