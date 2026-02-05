@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "name": "chartflow",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "out"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/pricing",
+      "dest": "/pricing.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
