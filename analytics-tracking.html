@@ -1,0 +1,71 @@
+<!-- ADD TO ChartFlow HEAD SECTION -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'GA_MEASUREMENT_ID');
+
+// Track UTM sources
+function trackVisitor() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const source = urlParams.get('utm_source') || 'direct';
+  const campaign = urlParams.get('utm_campaign') || 'none';
+  
+  gtag('event', 'page_view', {
+    traffic_source: source,
+    traffic_campaign: campaign,
+    page_location: window.location.href
+  });
+}
+
+// Track trial signups
+function trackTrialSignup(email) {
+  gtag('event', 'trial_signup', {
+    traffic_source: new URLSearchParams(window.location.search).get('utm_source') || 'direct',
+    value: 0
+  });
+  
+  // Also send to our revenue tracking
+  fetch('/api/track-conversion', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      type: 'trial_signup',
+      email: email,
+      source: new URLSearchParams(window.location.search).get('utm_source') || 'direct',
+      timestamp: Date.now()
+    })
+  });
+}
+
+// Track payments
+function trackPayment(amount, plan) {
+  gtag('event', 'purchase', {
+    traffic_source: localStorage.getItem('traffic_source') || 'direct',
+    value: amount,
+    currency: 'USD',
+    items: [{
+      item_name: plan,
+      price: amount,
+      quantity: 1
+    }]
+  });
+  
+  // Revenue tracking
+  fetch('/api/track-conversion', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      type: 'payment',
+      amount: amount,
+      plan: plan,
+      source: localStorage.getItem('traffic_source') || 'direct',
+      timestamp: Date.now()
+    })
+  });
+}
+
+// Initialize tracking
+document.addEventListener('DOMContentLoaded', trackVisitor);
+</script>
