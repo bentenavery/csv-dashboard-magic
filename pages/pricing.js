@@ -62,7 +62,7 @@ export default function Pricing() {
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
             <i className="fas fa-gem text-purple-300 mr-3"></i>
-            Simple Pricing
+            Simple Pricing ✨
           </h1>
           <p className="text-xl md:text-2xl text-purple-100 max-w-3xl mx-auto mb-8">
             Start free and upgrade when you're ready. No surprises, just beautiful dashboards.
