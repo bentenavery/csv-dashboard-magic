@@ -420,7 +420,15 @@
 
         // Verify all elements exist when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            const buildInfo = {
+                version: 'v1.2.1',
+                commit: '82d6a5e',
+                build: 'enhanced-buttons',
+                timestamp: '2026-02-04T19:41:00Z'
+            };
+            
             console.log('🚀 ChartFlow JavaScript loaded successfully!');
+            console.log('📋 Build Info:', buildInfo);
             console.log('✅ File input exists:', !!document.getElementById('csvFileInput'));
             console.log('✅ Upload text exists:', !!document.getElementById('uploadText'));
             console.log('✅ Main button exists:', !!document.getElementById('mainButton'));
@@ -432,9 +440,15 @@
             if (footer) {
                 const jsIndicator = document.createElement('div');
                 jsIndicator.className = 'text-center text-green-400 text-sm mb-4';
-                jsIndicator.innerHTML = '<i class="fas fa-check-circle mr-2"></i>JavaScript Active - Buttons Ready';
+                jsIndicator.innerHTML = `
+                    <div><i class="fas fa-check-circle mr-2"></i>JavaScript Active - Buttons Ready</div>
+                    <div class="text-xs text-gray-400 mt-1">v1.2.1 | ${buildInfo.commit} | Enhanced Buttons</div>
+                `;
                 footer.prepend(jsIndicator);
             }
+            
+            // Make build info available globally for debugging
+            window.ChartFlow = { buildInfo };
         });
     </script>
 </body>
