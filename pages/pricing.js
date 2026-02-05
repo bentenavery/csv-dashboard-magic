@@ -1,50 +1,53 @@
+import Head from 'next/head'
+
 export default function Pricing() {
   return (
     <>
+      <Head>
+        <title>Pricing - ChartFlow</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+      </Head>
+
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-        
-        * {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        
         .animated-gradient {
-          background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
-          background-size: 400% 400%;
-          animation: gradient-shift 15s ease infinite;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
         }
         
         @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .card-gradient {
-          background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .hover-scale { 
-          transition: all 0.3s ease; 
+            transition: all 0.3s ease; 
         }
         .hover-scale:hover { 
-          transform: scale(1.05) translateY(-5px); 
-          box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            transform: scale(1.05) translateY(-5px); 
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
         }
         
         .glow-pulse {
-          animation: pulse-glow 3s ease-in-out infinite;
+            animation: pulse-glow 3s ease-in-out infinite;
         }
         
         @keyframes pulse-glow {
-          0%, 100% { 
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
-          }
-          50% { 
-            box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 60px rgba(118, 75, 162, 0.6);
-          }
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 60px rgba(118, 75, 162, 0.6);
+            }
         }
       `}</style>
 
@@ -53,7 +56,7 @@ export default function Pricing() {
         <nav className="container mx-auto px-4 py-6">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
-              <span className="text-3xl">📊</span>
+              <i className="fas fa-chart-line text-3xl text-white"></i>
               <span className="text-2xl font-bold">ChartFlow</span>
             </div>
             <div className="hidden md:flex space-x-6">
@@ -66,8 +69,8 @@ export default function Pricing() {
         
         {/* Header */}
         <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-4xl md:text-6xl font-black mb-6">
-            <span className="text-purple-300 mr-3">💎</span>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <i className="fas fa-gem text-purple-300 mr-3"></i>
             Simple Pricing
           </h1>
           <p className="text-xl md:text-2xl text-purple-100 max-w-3xl mx-auto mb-8">
@@ -75,7 +78,7 @@ export default function Pricing() {
           </p>
         </div>
         
-        {/* Pricing Plans */}
+        {/* Pricing Plans - Only Free and Pro */}
         <div className="container mx-auto px-4 pb-20">
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             
@@ -83,7 +86,7 @@ export default function Pricing() {
             <div className="card-gradient rounded-2xl p-8 hover-scale">
               <div className="text-center">
                 <div className="mb-6">
-                  <span className="text-5xl">🌱</span>
+                  <i className="fas fa-seedling text-5xl text-green-300"></i>
                 </div>
                 
                 <h3 className="text-2xl font-bold mb-2">Free</h3>
@@ -98,19 +101,19 @@ export default function Pricing() {
                 
                 <ul className="text-left space-y-4 mb-8">
                   <li className="flex items-center">
-                    <span className="text-green-300 mr-3 flex-shrink-0">✅</span>
+                    <i className="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
                     <span>3 dashboard projects</span>
                   </li>
                   <li className="flex items-center">
-                    <span className="text-green-300 mr-3 flex-shrink-0">✅</span>
+                    <i className="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
                     <span>All chart types</span>
                   </li>
                   <li className="flex items-center">
-                    <span className="text-green-300 mr-3 flex-shrink-0">✅</span>
+                    <i className="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
                     <span>7-day data storage</span>
                   </li>
                   <li className="flex items-center">
-                    <span className="text-green-300 mr-3 flex-shrink-0">✅</span>
+                    <i className="fas fa-check text-green-300 mr-3 flex-shrink-0"></i>
                     <span>Public sharing</span>
                   </li>
                 </ul>
@@ -131,7 +134,7 @@ export default function Pricing() {
               
               <div className="text-center">
                 <div className="mb-6">
-                  <span className="text-5xl">🚀</span>
+                  <i className="fas fa-rocket text-5xl text-purple-300"></i>
                 </div>
                 
                 <h3 className="text-2xl font-bold mb-2">Pro</h3>
@@ -146,32 +149,32 @@ export default function Pricing() {
                 
                 <ul className="text-left space-y-4 mb-8">
                   <li className="flex items-center">
-                    <span className="text-purple-300 mr-3 flex-shrink-0">∞</span>
+                    <i className="fas fa-infinity text-purple-300 mr-3 flex-shrink-0"></i>
                     <span><strong>Unlimited</strong> dashboards</span>
                   </li>
                   <li className="flex items-center">
-                    <span className="text-purple-300 mr-3 flex-shrink-0">💾</span>
+                    <i className="fas fa-database text-purple-300 mr-3 flex-shrink-0"></i>
                     <span><strong>Permanent</strong> storage</span>
                   </li>
                   <li className="flex items-center">
-                    <span className="text-purple-300 mr-3 flex-shrink-0">🔒</span>
+                    <i className="fas fa-lock text-purple-300 mr-3 flex-shrink-0"></i>
                     <span><strong>Password</strong> protection</span>
                   </li>
                   <li className="flex items-center">
-                    <span className="text-purple-300 mr-3 flex-shrink-0">🎨</span>
+                    <i className="fas fa-palette text-purple-300 mr-3 flex-shrink-0"></i>
                     <span><strong>Custom</strong> branding</span>
                   </li>
                   <li className="flex items-center">
-                    <span className="text-purple-300 mr-3 flex-shrink-0">⬇️</span>
+                    <i className="fas fa-download text-purple-300 mr-3 flex-shrink-0"></i>
                     <span><strong>HD exports</strong> (PNG, PDF)</span>
                   </li>
                   <li className="flex items-center">
-                    <span className="text-purple-300 mr-3 flex-shrink-0">🎧</span>
+                    <i className="fas fa-headset text-purple-300 mr-3 flex-shrink-0"></i>
                     <span><strong>Priority</strong> support</span>
                   </li>
                 </ul>
                 
-                <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-black py-4 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all text-lg shadow-2xl">
+                <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all">
                   Start 14-Day Free Trial
                 </button>
                 <p className="text-xs text-purple-300 mt-3">No credit card required</p>
@@ -188,7 +191,7 @@ export default function Pricing() {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="card-gradient rounded-xl p-6">
                 <h3 className="text-xl font-bold mb-3">
-                  <span className="text-purple-300 mr-2">❓</span>
+                  <i className="fas fa-question-circle text-purple-300 mr-2"></i>
                   Can I cancel anytime?
                 </h3>
                 <p className="text-purple-100">
@@ -198,7 +201,7 @@ export default function Pricing() {
               
               <div className="card-gradient rounded-xl p-6">
                 <h3 className="text-xl font-bold mb-3">
-                  <span className="text-purple-300 mr-2">🔐</span>
+                  <i className="fas fa-question-circle text-purple-300 mr-2"></i>
                   Is my data secure?
                 </h3>
                 <p className="text-purple-100">
@@ -208,7 +211,7 @@ export default function Pricing() {
               
               <div className="card-gradient rounded-xl p-6">
                 <h3 className="text-xl font-bold mb-3">
-                  <span className="text-purple-300 mr-2">💻</span>
+                  <i className="fas fa-question-circle text-purple-300 mr-2"></i>
                   Do I need to know code?
                 </h3>
                 <p className="text-purple-100">
@@ -218,7 +221,7 @@ export default function Pricing() {
               
               <div className="card-gradient rounded-xl p-6">
                 <h3 className="text-xl font-bold mb-3">
-                  <span className="text-purple-300 mr-2">📁</span>
+                  <i className="fas fa-question-circle text-purple-300 mr-2"></i>
                   How big can my files be?
                 </h3>
                 <p className="text-purple-100">
@@ -232,7 +235,7 @@ export default function Pricing() {
         {/* Footer */}
         <footer className="container mx-auto px-4 py-12 text-center border-t border-white/10">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <span className="text-2xl">📊</span>
+            <i className="fas fa-chart-line text-2xl text-purple-300"></i>
             <span className="text-xl font-bold">ChartFlow</span>
           </div>
           <p className="text-purple-300">Turn your data into beautiful charts that flow ✨</p>
