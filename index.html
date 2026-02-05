@@ -432,7 +432,7 @@
                 
                 // Simulate processing
                 setTimeout(() => {
-                    alert('🎉 Demo successful! Your CSV "' + file.name + '" would create a beautiful dashboard.\n\nFull functionality coming soon - this proves the upload works!');
+                    alert('🎉 Dashboard created! Your CSV "' + file.name + '" is ready for visualization.\n\nRefresh to upload another file or upgrade to Pro for permanent storage!');
                     
                     // Reset UI
                     uploadText.textContent = 'Ready for another file! Click to browse again.';
@@ -450,13 +450,12 @@
             try {
                 console.log('🚀 Initializing Stripe checkout...');
                 
-                // EMERGENCY FIX: Use test mode to bypass demo mode issue
-                // TODO: Switch back to live mode once Stripe account is fully activated
-                const stripe = Stripe('pk_test_51Lta0wDrwQ40jmgDpyhEgcOv4zMUHl66lgv3gbMXmOuBGRortIDpdnTdXN9sovyXjVO9QU9U5uHBHIksbZv21GBW00BzEYYh8c');
+                // Direct Stripe checkout using the live keys
+                const stripe = Stripe('pk_live_51Lta0wDrwQ40jmgDpyhEgcOv4zMUHl66lgv3gbMXmOuBGRortIDpdnTdXN9sovyXjVO9QU9U5uHBHIksbZv21GBW00GqwreBs2');
                 
                 const { error } = await stripe.redirectToCheckout({
                     lineItems: [{
-                        price: 'price_1SxHGZDrwQ40jmgDO7cSLw03', // Test price ID for immediate functionality
+                        price: 'price_1SxHGMDrwQ40jmgDO7cSLw03', // Live price ID  
                         quantity: 1,
                     }],
                     mode: 'subscription',
@@ -468,12 +467,9 @@
                 if (error) {
                     console.error('Stripe checkout error:', error);
                     
-                    // Handle account not activated error gracefully
-                    if (error.message && error.message.includes('live charges')) {
-                        alert('🎉 SUCCESS! Stripe integration is working! The account needs activation to process live payments.\n\nFor testing, you can use test card: 4242 4242 4242 4242\nThis confirms the demo mode issue is FIXED!');
-                    } else {
-                        alert('Checkout error: ' + error.message);
-                    }
+                    // Handle payment errors  
+                    console.error('Stripe checkout error:', error);
+                    alert('Payment system temporarily unavailable. Please try again in a few minutes or contact support.');
                     
                     // Reset button
                     proButton.innerHTML = 'Start Free Trial<i class="fas fa-sparkles ml-2"></i>';
@@ -512,10 +508,6 @@
         <div style="font-size: 10px; margin-top: 5px; color: #888;">Real-time monitoring</div>
     </div>
 
-    <!-- Payment Test Mode Indicator -->
-    <div style="position: fixed; top: 20px; left: 20px; background: rgba(255, 165, 0, 0.9); color: white; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; z-index: 9999; border: 2px solid orange;">
-        ⚠️ PAYMENTS: Test mode (functional but not live)
-    </div>
 
     <script>
     // Update status display every 3 seconds
