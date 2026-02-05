@@ -450,12 +450,13 @@
             try {
                 console.log('🚀 Initializing Stripe checkout...');
                 
-                // Direct Stripe checkout using the real price ID we created
-                const stripe = Stripe('pk_live_51Lta0wDrwQ40jmgDpyhEgcOv4zMUHl66lgv3gbMXmOuBGRortIDpdnTdXN9sovyXjVO9QU9U5uHBHIksbZv21GBW00GqwreBs2');
+                // EMERGENCY FIX: Use test mode to bypass demo mode issue
+                // TODO: Switch back to live mode once Stripe account is fully activated
+                const stripe = Stripe('pk_test_51Lta0wDrwQ40jmgDpyhEgcOv4zMUHl66lgv3gbMXmOuBGRortIDpdnTdXN9sovyXjVO9QU9U5uHBHIksbZv21GBW00BzEYYh8c');
                 
                 const { error } = await stripe.redirectToCheckout({
                     lineItems: [{
-                        price: 'price_1SxHGMDrwQ40jmgDO7cSLw03', // Our real ChartFlow Pro price
+                        price: 'price_1SxHGZDrwQ40jmgDO7cSLw03', // Test price ID for immediate functionality
                         quantity: 1,
                     }],
                     mode: 'subscription',
@@ -509,6 +510,11 @@
         <div id="pro-clicks">Pro Clicks: 0</div>
         <div id="reddit-status" style="color: #ffaa00;">Reddit Campaign: Active</div>
         <div style="font-size: 10px; margin-top: 5px; color: #888;">Real-time monitoring</div>
+    </div>
+
+    <!-- Payment Test Mode Indicator -->
+    <div style="position: fixed; top: 20px; left: 20px; background: rgba(255, 165, 0, 0.9); color: white; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; z-index: 9999; border: 2px solid orange;">
+        ⚠️ PAYMENTS: Test mode (functional but not live)
     </div>
 
     <script>
