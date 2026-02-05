@@ -26,9 +26,8 @@ Visit: [https://bentenavery.github.io/csv-dashboard-magic/](https://bentenavery.
 
 ## 💰 Pricing
 
-- **Free**: 3 dashboards, basic features
-- **Pro ($20/month)**: Unlimited dashboards, custom branding, premium features
-- **Enterprise ($99/month)**: Team collaboration, API access, dedicated support
+- **Free**: 3 dashboards, basic features, forever free
+- **Pro ($20/month)**: Unlimited dashboards, custom branding, premium features, priority support
 
 ## 🔧 Technical Stack
 
