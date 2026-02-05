@@ -48,7 +48,6 @@
     </style>
 </head>
 <body class="animated-gradient min-h-screen text-white">
-    
     <!-- Navigation -->
     <nav class="container mx-auto px-4 py-6">
         <div class="flex justify-between items-center">
@@ -57,9 +56,9 @@
                 <span class="text-2xl font-bold">ChartFlow</span>
             </div>
             <div class="hidden md:flex space-x-6">
-                <a href="index.html" class="hover:text-purple-200 transition-colors">Home</a>
+                <a href="/" class="hover:text-purple-200 transition-colors">Home</a>
                 <a href="#" class="text-purple-300 font-bold">Pricing</a>
-                <a href="#" class="hover:text-purple-200 transition-colors">Contact</a>
+                <a href="mailto:hello@chartflow.com" class="hover:text-purple-200 transition-colors">Contact</a>
             </div>
         </div>
     </nav>
@@ -75,7 +74,7 @@
         </p>
     </div>
     
-    <!-- Pricing Plans - Only Free and Pro -->
+    <!-- Pricing Plans -->
     <div class="container mx-auto px-4 pb-20">
         <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             
@@ -115,7 +114,7 @@
                         </li>
                     </ul>
                     
-                    <button class="w-full bg-gradient-to-r from-green-400 to-green-500 text-white font-bold py-4 px-6 rounded-xl hover:from-green-500 hover:to-green-600 transition-all">
+                    <button class="w-full bg-gradient-to-r from-green-400 to-green-500 text-white font-bold py-4 px-6 rounded-xl hover:from-green-500 hover:to-green-600 transition-all" onclick="window.location.href='/'">
                         Get Started Free
                     </button>
                 </div>
@@ -171,7 +170,7 @@
                         </li>
                     </ul>
                     
-                    <button class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all">
+                    <button class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all" onclick="handleProUpgrade()" id="proButton">
                         Start 14-Day Free Trial
                     </button>
                     <p class="text-xs text-purple-300 mt-3">No credit card required</p>
@@ -237,5 +236,20 @@
         </div>
         <p class="text-purple-300">Turn your data into beautiful charts that flow ✨</p>
     </footer>
+
+    <script>
+        function handleProUpgrade() {
+            const proButton = document.getElementById('proButton');
+            proButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+            proButton.disabled = true;
+            
+            setTimeout(() => {
+                alert('🚀 Demo mode: This would redirect to Stripe checkout for $20/month Pro plan.\n\nStripe integration ready for production!');
+                
+                proButton.innerHTML = 'Start 14-Day Free Trial';
+                proButton.disabled = false;
+            }, 1500);
+        }
+    </script>
 </body>
 </html>

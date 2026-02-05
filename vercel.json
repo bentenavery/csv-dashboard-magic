@@ -1,15 +1,16 @@
 {
   "version": 2,
   "name": "chartflow",
-  "public": true,
-  "rewrites": [
+  "builds": [
     {
-      "source": "/",
-      "destination": "/index.html"
-    },
+      "src": "*.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
     {
-      "source": "/pricing",
-      "destination": "/pricing.html"
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ],
   "headers": [
