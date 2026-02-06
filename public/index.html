@@ -58,122 +58,36 @@
         }
     </style>
 
-    <!-- Emergency ChartFlow Analytics - SURVIVAL MODE -->
+    <!-- Analytics (simplified) -->
     <script>
-    // ChartFlow Emergency Traffic Monitor
-    class EmergencyMonitor {
+    // Simple analytics tracking
+    class SimpleAnalytics {
       constructor() {
-        this.startTime = Date.now();
         this.visits = parseInt(localStorage.getItem('chartflow_visits') || '0');
-        this.proClicks = parseInt(localStorage.getItem('chartflow_proClicks') || '0');
-        this.conversions = parseInt(localStorage.getItem('chartflow_conversions') || '0');
-        this.SURVIVAL_THRESHOLD = 10; // visitors per hour
+        this.signups = parseInt(localStorage.getItem('chartflow_signups') || '0');
         this.init();
       }
 
       init() {
-        // Track page load
         this.trackVisit();
-        
-        // Track Pro tier clicks
-        document.addEventListener('click', (e) => {
-          if (e.target.closest('.pro-btn') || 
-              e.target.textContent.includes('Pro') || 
-              e.target.textContent.includes('$20')) {
-            this.trackProClick();
-          }
-        });
-
-        // Monitor survival metrics every 2 minutes
-        setInterval(() => {
-          this.checkSurvivalStatus();
-        }, 2 * 60 * 1000);
-
-        console.log('🚨 ChartFlow Emergency Monitor Active - Survival Mode');
-        this.checkSurvivalStatus(); // Initial check
       }
 
       trackVisit() {
         this.visits++;
-        const source = this.getReferralSource();
-        
-        console.log(`📊 Visit #${this.visits} from ${source} at ${new Date().toLocaleTimeString()}`);
-        
-        this.updateLocalStats('visits', this.visits);
-        this.updateDisplay();
-        
-        // Check if this puts us over survival threshold
-        this.checkSurvivalStatus();
+        localStorage.setItem('chartflow_visits', this.visits);
+        console.log(`📊 Visit #${this.visits}`);
       }
 
-      trackProClick() {
-        this.proClicks++;
-        console.log(`💰 Pro Click #${this.proClicks} - POTENTIAL $20 CONVERSION!`);
-        
-        this.updateLocalStats('proClicks', this.proClicks);
-        this.updateDisplay();
-        this.sendSurvivalAlert(`💰 Pro tier clicked! Total: ${this.proClicks} - Revenue Interest!`);
-      }
-
-      trackConversion() {
-        this.conversions++;
-        console.log(`🎉 CONVERSION! Customer #${this.conversions} - $20 REVENUE!`);
-        
-        this.updateLocalStats('conversions', this.conversions);
-        this.updateDisplay();
-        this.sendSurvivalAlert(`🎉 FIRST CUSTOMER! Revenue: $${this.conversions * 20}`);
-      }
-
-      getReferralSource() {
-        const referrer = document.referrer;
-        if (referrer.includes('reddit.com')) return 'Reddit';
-        if (referrer.includes('twitter.com') || referrer.includes('t.co')) return 'Twitter';
-        if (referrer.includes('google.com')) return 'Google';
-        if (!referrer) return 'Direct';
-        return referrer.split('/')[2] || 'Other';
-      }
-
-      checkSurvivalStatus() {
-        const hoursSinceStart = (Date.now() - this.startTime) / (1000 * 60 * 60);
-        const visitsPerHour = Math.max(this.visits / Math.max(hoursSinceStart, 1/60), 0);
-        
-        const status = visitsPerHour >= this.SURVIVAL_THRESHOLD ? '✅ SAFE' : '🚨 DANGER';
-        console.log(`${status} Survival: ${visitsPerHour.toFixed(1)}/${this.SURVIVAL_THRESHOLD} visitors/hour`);
-        
-        if (visitsPerHour < this.SURVIVAL_THRESHOLD && this.visits > 0) {
-          this.sendSurvivalAlert(`🚨 Below threshold: ${visitsPerHour.toFixed(1)}/${this.SURVIVAL_THRESHOLD} visitors/hour`);
-        }
-      }
-
-      updateLocalStats(key, value) {
-        localStorage.setItem(`chartflow_${key}`, value);
-        localStorage.setItem('chartflow_lastUpdate', Date.now());
-      }
-
-      updateDisplay() {
-        // Update emergency display if present
-        const visitCount = document.getElementById('visit-count');
-        const proClicks = document.getElementById('pro-clicks');
-        if (visitCount) visitCount.textContent = `Visits: ${this.visits}`;
-        if (proClicks) proClicks.textContent = `Pro Clicks: ${this.proClicks}`;
-      }
-
-      sendSurvivalAlert(message) {
-        console.log(`🚨 SURVIVAL: ${message}`);
-        
-        // Store alert for retrieval
-        const alerts = JSON.parse(localStorage.getItem('chartflow_alerts') || '[]');
-        alerts.push({
-          timestamp: Date.now(),
-          message: message
-        });
-        localStorage.setItem('chartflow_alerts', JSON.stringify(alerts.slice(-10))); // Keep last 10
+      trackSignup() {
+        this.signups++;
+        localStorage.setItem('chartflow_signups', this.signups);
+        console.log(`🎉 Signup #${this.signups} - FREE TRIAL STARTED!`);
       }
     }
 
     // Initialize when DOM loads
     document.addEventListener('DOMContentLoaded', () => {
-      window.chartFlowMonitor = new EmergencyMonitor();
+      window.analytics = new SimpleAnalytics();
     });
     </script>
 </head>
@@ -497,45 +411,6 @@
                 }
             });
         });
-    </script>
-
-    <!-- Emergency Survival Monitor Display -->
-    <div id="emergency-status" style="position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.9); color: #00ff00; padding: 15px; border-radius: 10px; font-family: monospace; font-size: 12px; z-index: 9999; border: 2px solid #00ff00; box-shadow: 0 0 20px rgba(0,255,0,0.3);">
-        <div style="color: #ff4444; font-weight: bold; margin-bottom: 8px;">🚨 SURVIVAL MODE ACTIVE</div>
-        <div id="visit-count">Visits: 0</div>
-        <div id="pro-clicks">Pro Clicks: 0</div>
-        <div id="reddit-status" style="color: #ffaa00;">Reddit Campaign: Active</div>
-        <div style="font-size: 10px; margin-top: 5px; color: #888;">Real-time monitoring</div>
-    </div>
-
-
-    <script>
-    // Update status display every 3 seconds
-    setInterval(() => {
-      const visits = localStorage.getItem('chartflow_visits') || '0';
-      const proClicks = localStorage.getItem('chartflow_proClicks') || '0';
-      
-      const visitCount = document.getElementById('visit-count');
-      const proClickCount = document.getElementById('pro-clicks');
-      
-      if (visitCount) visitCount.textContent = `Visits: ${visits}`;
-      if (proClickCount) proClickCount.textContent = `Pro Clicks: ${proClicks}`;
-      
-      // Show survival threshold status
-      const hoursSinceStart = (Date.now() - (window.chartFlowMonitor?.startTime || Date.now())) / (1000 * 60 * 60);
-      const visitsPerHour = Math.max(parseInt(visits) / Math.max(hoursSinceStart, 1/60), 0);
-      const redditStatus = document.getElementById('reddit-status');
-      
-      if (redditStatus) {
-        if (visitsPerHour >= 10) {
-          redditStatus.style.color = '#00ff00';
-          redditStatus.textContent = `✅ Safe: ${visitsPerHour.toFixed(1)}/h`;
-        } else {
-          redditStatus.style.color = '#ff4444';
-          redditStatus.textContent = `🚨 Need: ${visitsPerHour.toFixed(1)}/10h`;
-        }
-      }
-    }, 3000);
     </script>
 </body>
 </html><!-- Deployment trigger Thu Feb  5 15:12:10 EST 2026 -->
