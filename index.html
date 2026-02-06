@@ -68,17 +68,106 @@
             height: 100%;
             background-color: rgba(0,0,0,0.8);
             backdrop-filter: blur(5px);
+            overflow-y: auto; /* Enable vertical scrolling */
         }
         
         .modal-content {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 10% auto;
+            margin: 2rem auto;
             padding: 30px;
             border-radius: 20px;
             width: 90%;
             max-width: 500px;
             position: relative;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            min-height: min-content; /* Ensure content fits */
+        }
+
+        /* Responsive modal adjustments for smaller screens */
+        @media (max-height: 800px) {
+            .modal-content {
+                margin: 1rem auto;
+                padding: 20px;
+                border-radius: 15px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .modal-content {
+                margin: 0.5rem auto;
+                padding: 15px;
+                border-radius: 10px;
+                width: 95%;
+            }
+        }
+
+        /* Ensure modal content is never cut off */
+        @media (max-height: 500px) {
+            .modal {
+                align-items: flex-start;
+                padding: 10px 0;
+            }
+            
+            .modal-content {
+                margin: 0 auto;
+                min-height: auto;
+                max-height: none;
+            }
+        }
+
+        /* Payment modal specific styles (larger content) */
+        .payment-modal {
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        @media (max-height: 900px) {
+            .payment-modal {
+                max-height: calc(100vh - 2rem);
+            }
+        }
+
+        @media (max-height: 700px) {
+            .payment-modal {
+                max-height: calc(100vh - 1rem);
+                margin: 0.5rem auto;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .payment-modal {
+                max-height: calc(100vh - 0.5rem);
+                margin: 0.25rem auto;
+                padding: 15px;
+            }
+
+            .payment-modal .space-y-4 > * + * {
+                margin-top: 12px;
+            }
+
+            .payment-modal .space-y-2 > * + * {
+                margin-top: 8px;
+            }
+        }
+
+        /* Make form elements more compact on smaller screens */
+        @media (max-height: 500px) {
+            .payment-modal input[type="text"],
+            .payment-modal input[type="email"] {
+                padding: 10px 12px;
+            }
+
+            .payment-modal button[type="submit"] {
+                padding: 12px 24px;
+            }
+
+            .payment-modal .bg-white.bg-opacity-10.rounded-xl {
+                padding: 15px;
+            }
+
+            .payment-modal .text-center.mb-6 {
+                margin-bottom: 1rem;
+            }
         }
         
         .close {
@@ -370,7 +459,7 @@
 
     <!-- STRIPE TRIAL SUBSCRIPTION MODAL -->
     <div id="trialModal" class="modal">
-        <div class="modal-content" style="max-width: 600px; width: 95%;">
+        <div class="modal-content payment-modal" style="max-width: 600px; width: 95%;">
             <span class="close close-modal">&times;</span>
             
             <!-- Header -->
