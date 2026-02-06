@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your CSV Dashboard - ChartFlow</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .card-gradient {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .chart-container.large {
+            height: 400px;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 250px;
+            }
+        }
+        
+        .hover-scale { 
+            transition: all 0.3s ease; 
+        }
+        .hover-scale:hover { 
+            transform: scale(1.02); 
+        }
+        
+        .glow-card {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+        .glow-card:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 4px solid #ffffff;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .insight-positive { border-left: 4px solid #22c55e; }
+        .insight-negative { border-left: 4px solid #ef4444; }
+        .insight-info { border-left: 4px solid #3b82f6; }
+        .insight-warning { border-left: 4px solid #f59e0b; }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .no-data-state {
+            min-height: 400px;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen text-white">
+    
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+                    <i class="fas fa-chart-line text-3xl text-white"></i>
+                    <h1 class="text-2xl font-bold">ChartFlow</h1>
+                </a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button onclick="downloadDashboard()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all">
+                    <i class="fas fa-download mr-2"></i>Export
+                </button>
+                <button onclick="shareDashboard()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all">
+                    <i class="fas fa-share mr-2"></i>Share
+                </button>
+                <button onclick="uploadNew()" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 px-4 py-2 rounded-lg transition-all">
+                    <i class="fas fa-plus mr-2"></i>New CSV
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="container mx-auto px-4 py-20 text-center">
+        <div class="loading-spinner mx-auto mb-4"></div>
+        <h2 class="text-2xl font-bold mb-2">Processing Your Data</h2>
+        <p class="text-purple-200">Creating beautiful charts from your CSV...</p>
+    </div>
+
+    <!-- No Data State -->
+    <div id="noDataState" class="container mx-auto px-4 py-20 text-center no-data-state hidden">
+        <div class="max-w-2xl mx-auto">
+            <i class="fas fa-file-csv text-6xl text-purple-300 mb-6"></i>
+            <h2 class="text-3xl font-bold mb-4">No Data Found</h2>
+            <p class="text-xl text-purple-200 mb-8">
+                It looks like there's no CSV data to display. Upload a file to get started!
+            </p>
+            <button onclick="uploadNew()" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 px-8 py-4 rounded-xl text-lg font-semibold transition-all">
+                <i class="fas fa-upload mr-3"></i>Upload Your CSV
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboardContent" class="hidden fade-in">
+        <!-- File Info Banner -->
+        <div class="container mx-auto px-4 mb-6">
+            <div class="card-gradient rounded-xl p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-green-500 bg-opacity-30 p-3 rounded-full">
+                            <i class="fas fa-file-csv text-green-300 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg" id="fileName">filename.csv</h3>
+                            <p class="text-purple-200" id="fileStats">Processed just now</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold" id="recordCount">0</div>
+                        <div class="text-purple-200 text-sm">Records</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Insights -->
+        <div id="insightsSection" class="container mx-auto px-4 mb-8">
+            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <i class="fas fa-lightbulb text-yellow-300 mr-3"></i>
+                Key Insights
+            </h2>
+            <div id="insightsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Insights will be populated here -->
+            </div>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="container mx-auto px-4 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6" id="statsGrid">
+                <!-- Stats cards will be populated here -->
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="container mx-auto px-4 mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="chartsGrid">
+                <!-- Charts will be populated here -->
+            </div>
+        </div>
+        
+        <!-- Data Preview Table -->
+        <div class="container mx-auto px-4 mb-8">
+            <div class="card-gradient rounded-xl p-6 glow-card">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">Data Preview</h3>
+                    <button onclick="viewFullData()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all text-sm">
+                        <i class="fas fa-table mr-2"></i>View Full Dataset
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left" id="dataPreviewTable">
+                        <thead>
+                            <tr class="border-b border-white border-opacity-20" id="tableHeaders">
+                                <!-- Headers populated by JS -->
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Data rows populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global chart instances for cleanup
+        let chartInstances = [];
+        let dashboardData = null;
+
+        // Chart.js default configuration
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: '#e2e8f0' }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#a78bfa' },
+                    grid: { color: 'rgba(255,255,255,0.1)' }
+                },
+                y: {
+                    ticks: { color: '#a78bfa' },
+                    grid: { color: 'rgba(255,255,255,0.1)' }
+                }
+            }
+        };
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+        });
+
+        async function loadDashboard() {
+            // Show loading state
+            showLoadingState();
+
+            try {
+                // Get processed data from localStorage
+                const storedData = localStorage.getItem('chartflow_dashboard_data');
+                
+                if (!storedData) {
+                    showNoDataState();
+                    return;
+                }
+
+                dashboardData = JSON.parse(storedData);
+                
+                // Small delay for better UX
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Populate dashboard
+                populateFileInfo();
+                populateInsights();
+                populateStats();
+                populateCharts();
+                populateDataPreview();
+                
+                // Show dashboard
+                showDashboard();
+                
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                showNoDataState();
+            }
+        }
+
+        function showLoadingState() {
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('noDataState').classList.add('hidden');
+            document.getElementById('dashboardContent').classList.add('hidden');
+        }
+
+        function showNoDataState() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('noDataState').classList.remove('hidden');
+            document.getElementById('dashboardContent').classList.add('hidden');
+        }
+
+        function showDashboard() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('noDataState').classList.add('hidden');
+            document.getElementById('dashboardContent').classList.remove('hidden');
+        }
+
+        function populateFileInfo() {
+            const fileName = dashboardData.filename || 'Unknown File';
+            const timestamp = new Date(dashboardData.timestamp).toLocaleString();
+            const recordCount = dashboardData.summary.totalRecords || 0;
+            const columnCount = dashboardData.summary.columns || 0;
+
+            document.getElementById('fileName').textContent = fileName;
+            document.getElementById('fileStats').textContent = `${columnCount} columns • Processed ${timestamp}`;
+            document.getElementById('recordCount').textContent = recordCount.toLocaleString();
+        }
+
+        function populateInsights() {
+            const insights = dashboardData.summary.insights || [];
+            const insightsList = document.getElementById('insightsList');
+            
+            if (insights.length === 0) {
+                document.getElementById('insightsSection').style.display = 'none';
+                return;
+            }
+
+            insightsList.innerHTML = insights.map(insight => `
+                <div class="card-gradient rounded-xl p-4 insight-${insight.type} hover-scale">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <i class="fas ${insight.icon} text-lg ${getInsightIconColor(insight.type)}"></i>
+                        </div>
+                        <div>
+                            <p class="text-white">${insight.text}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getInsightIconColor(type) {
+            const colors = {
+                positive: 'text-green-300',
+                negative: 'text-red-300',
+                info: 'text-blue-300',
+                warning: 'text-yellow-300'
+            };
+            return colors[type] || 'text-gray-300';
+        }
+
+        function populateStats() {
+            const stats = dashboardData.stats || {};
+            const statsGrid = document.getElementById('statsGrid');
+            
+            // Get numeric columns from stats
+            const numericColumns = Object.keys(stats).filter(key => 
+                typeof stats[key] === 'object' && stats[key].average !== undefined
+            );
+
+            if (numericColumns.length === 0) {
+                statsGrid.innerHTML = `
+                    <div class="col-span-full card-gradient rounded-xl p-6 text-center">
+                        <p class="text-purple-200">No numeric data found for statistics</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const statsCards = numericColumns.slice(0, 4).map(column => {
+                const columnStats = stats[column];
+                const growthClass = columnStats.growth > 0 ? 'text-green-300' : 'text-red-300';
+                const growthIcon = columnStats.growth > 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+                
+                return `
+                    <div class="card-gradient rounded-xl p-6 glow-card hover-scale">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-purple-200 text-sm truncate">${column}</p>
+                                <p class="text-2xl font-bold">${formatNumber(columnStats.average)}</p>
+                                <div class="flex items-center space-x-2 mt-2">
+                                    <i class="fas ${growthIcon} ${growthClass}"></i>
+                                    <span class="${growthClass} text-sm font-medium">
+                                        ${Math.abs(columnStats.growth)}%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="bg-blue-500 bg-opacity-30 p-3 rounded-full">
+                                <i class="fas fa-chart-bar text-blue-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            statsGrid.innerHTML = statsCards;
+        }
+
+        function populateCharts() {
+            const charts = dashboardData.charts || [];
+            const chartsGrid = document.getElementById('chartsGrid');
+            
+            if (charts.length === 0) {
+                chartsGrid.innerHTML = `
+                    <div class="col-span-full card-gradient rounded-xl p-8 text-center">
+                        <i class="fas fa-chart-pie text-4xl text-purple-300 mb-4"></i>
+                        <p class="text-xl text-purple-200">No charts could be generated from your data</p>
+                        <p class="text-purple-300 text-sm mt-2">Try uploading a CSV with numeric columns</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Clear existing chart instances
+            chartInstances.forEach(chart => chart.destroy());
+            chartInstances = [];
+
+            // Create chart containers
+            const chartContainers = charts.map((chart, index) => `
+                <div class="card-gradient rounded-xl p-6 glow-card">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold">${chart.title}</h3>
+                        <div class="text-sm text-purple-200">${getChartTypeLabel(chart.type)}</div>
+                    </div>
+                    <div class="chart-container ${index === 0 ? 'large' : ''}">
+                        <canvas id="chart-${index}"></canvas>
+                    </div>
+                </div>
+            `).join('');
+
+            chartsGrid.innerHTML = chartContainers;
+
+            // Create charts after DOM update
+            setTimeout(() => {
+                charts.forEach((chart, index) => {
+                    createChart(`chart-${index}`, chart);
+                });
+            }, 100);
+        }
+
+        function createChart(canvasId, chartConfig) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+
+            try {
+                const options = getChartOptions(chartConfig.type);
+                
+                const chartInstance = new Chart(ctx, {
+                    type: chartConfig.type,
+                    data: chartConfig.data,
+                    options: options
+                });
+
+                chartInstances.push(chartInstance);
+            } catch (error) {
+                console.error(`Error creating chart ${canvasId}:`, error);
+            }
+        }
+
+        function getChartOptions(type) {
+            const baseOptions = { ...defaultChartOptions };
+            
+            switch (type) {
+                case 'doughnut':
+                case 'pie':
+                    return {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#e2e8f0' },
+                                position: 'bottom'
+                            }
+                        }
+                    };
+                    
+                case 'radar':
+                    return {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#e2e8f0' }
+                            }
+                        },
+                        scales: {
+                            r: {
+                                angleLines: { color: 'rgba(255,255,255,0.1)' },
+                                grid: { color: 'rgba(255,255,255,0.1)' },
+                                pointLabels: { color: '#a78bfa' },
+                                ticks: { 
+                                    color: '#a78bfa',
+                                    backdropColor: 'transparent'
+                                }
+                            }
+                        }
+                    };
+                    
+                default:
+                    return baseOptions;
+            }
+        }
+
+        function getChartTypeLabel(type) {
+            const labels = {
+                'line': 'Line Chart',
+                'bar': 'Bar Chart',
+                'doughnut': 'Doughnut Chart',
+                'pie': 'Pie Chart',
+                'radar': 'Radar Chart',
+                'area': 'Area Chart'
+            };
+            return labels[type] || 'Chart';
+        }
+
+        function populateDataPreview() {
+            const rawData = dashboardData.rawData || {};
+            const headers = rawData.headers || [];
+            const data = rawData.data || [];
+            
+            const tableHeaders = document.getElementById('tableHeaders');
+            const tableBody = document.getElementById('tableBody');
+            
+            // Populate headers
+            tableHeaders.innerHTML = headers.map(header => 
+                `<th class="pb-3 text-purple-200">${header}</th>`
+            ).join('');
+            
+            // Populate data rows (limit to 10 for preview)
+            const previewRows = data.slice(0, 10);
+            tableBody.innerHTML = previewRows.map((row, index) => `
+                <tr class="border-b border-white border-opacity-10 ${index % 2 === 0 ? 'bg-white bg-opacity-5' : ''}">
+                    ${headers.map(header => 
+                        `<td class="py-3">${formatCellValue(row[header])}</td>`
+                    ).join('')}
+                </tr>
+            `).join('');
+        }
+
+        function formatCellValue(value) {
+            if (value === null || value === undefined || value === '') {
+                return '<span class="text-purple-400 italic">empty</span>';
+            }
+            
+            // Check if it's a number
+            const num = parseFloat(value);
+            if (!isNaN(num) && num.toString() === value.toString()) {
+                return formatNumber(num);
+            }
+            
+            return String(value);
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toLocaleString();
+        }
+
+        // Action functions
+        function uploadNew() {
+            window.location.href = 'index.html';
+        }
+
+        function downloadDashboard() {
+            // Create a simple HTML export of the dashboard
+            const exportData = {
+                filename: dashboardData.filename,
+                timestamp: dashboardData.timestamp,
+                stats: dashboardData.stats,
+                insights: dashboardData.summary.insights
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${dashboardData.filename}-dashboard.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+
+        function shareDashboard() {
+            const shareText = `Check out my data dashboard created with ChartFlow! 📊✨`;
+            const shareUrl = window.location.href;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ChartFlow Dashboard',
+                    text: shareText,
+                    url: shareUrl
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(`${shareText} ${shareUrl}`)
+                    .then(() => alert('Dashboard link copied to clipboard!'))
+                    .catch(() => prompt('Copy this link to share:', shareUrl));
+            }
+        }
+
+        function viewFullData() {
+            // Create a modal or new window with the full dataset
+            const fullData = dashboardData.rawData.data;
+            const headers = dashboardData.rawData.headers;
+            
+            let csvContent = headers.join(',') + '\n';
+            csvContent += fullData.map(row => 
+                headers.map(header => `"${row[header]}"`).join(',')
+            ).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${dashboardData.filename}-full-data.csv`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
