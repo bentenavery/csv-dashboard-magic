@@ -1,13 +1,21 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method not allowed' });
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Allow': 'POST'
+      },
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
   }
 
   try {
-    const { priceId } = req.body;
+    const requestBody = JSON.parse(event.body || '{}');
+    const { priceId } = requestBody;
     
     // Use the correct price ID from environment or fallback to the real one we created
     const price_id = priceId || process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || 'price_1SxHGMDrwQ40jmgDO7cSLw03';
@@ -34,17 +42,34 @@ export default async function handler(req, res) {
     });
 
     console.log('Checkout session created:', session.id);
-    res.status(200).json({ id: session.id, url: session.url });
+    
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: session.id, url: session.url })
+    };
     
   } catch (error) {
     console.error('Stripe checkout session creation failed:', error);
     
     // Return specific error information
-    res.status(500).json({ 
-      error: error.message,
-      code: error.code || 'unknown',
-      details: 'Failed to create checkout session',
-      timestamp: new Date().toISOString()
-    });
+    return {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        error: error.message,
+        code: error.code || 'unknown',
+        details: 'Failed to create checkout session',
+        timestamp: new Date().toISOString()
+      })
+    };
   }
 }

@@ -1,60 +1,91 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method not allowed' });
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Allow': 'POST'
+      },
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
   }
 
-  const sig = req.headers['stripe-signature'];
-  let event;
+  const sig = event.headers['stripe-signature'];
+  let stripeEvent;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      req.body, 
+    stripeEvent = stripe.webhooks.constructEvent(
+      event.body, 
       sig, 
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
-    return res.status(400).json({ error: `Webhook Error: ${err.message}` });
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ error: `Webhook Error: ${err.message}` })
+    };
   }
 
   try {
     // Handle the event
-    switch (event.type) {
+    switch (stripeEvent.type) {
       case 'customer.subscription.created':
-        await handleSubscriptionCreated(event.data.object);
+        await handleSubscriptionCreated(stripeEvent.data.object);
         break;
         
       case 'customer.subscription.trial_will_end':
-        await handleTrialWillEnd(event.data.object);
+        await handleTrialWillEnd(stripeEvent.data.object);
         break;
         
       case 'invoice.payment_succeeded':
-        await handlePaymentSucceeded(event.data.object);
+        await handlePaymentSucceeded(stripeEvent.data.object);
         break;
         
       case 'invoice.payment_failed':
-        await handlePaymentFailed(event.data.object);
+        await handlePaymentFailed(stripeEvent.data.object);
         break;
         
       case 'customer.subscription.updated':
-        await handleSubscriptionUpdated(event.data.object);
+        await handleSubscriptionUpdated(stripeEvent.data.object);
         break;
         
       case 'customer.subscription.deleted':
-        await handleSubscriptionCanceled(event.data.object);
+        await handleSubscriptionCanceled(stripeEvent.data.object);
         break;
         
       default:
-        console.log(`Unhandled event type ${event.type}`);
+        console.log(`Unhandled event type ${stripeEvent.type}`);
     }
 
-    res.json({ received: true });
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ received: true })
+    };
   } catch (error) {
     console.error('Webhook handler error:', error);
-    res.status(500).json({ error: 'Webhook handler failed' });
+    return {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ error: 'Webhook handler failed' })
+    };
   }
 }
 

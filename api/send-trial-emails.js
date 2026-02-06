@@ -7,13 +7,21 @@ if (process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 }
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method not allowed' });
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Allow': 'POST'
+      },
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
   }
 
   try {
+    const requestBody = JSON.parse(event.body || '{}');
     const { 
       type, // 'welcome', 'trial_ending', 'payment_success', 'payment_failed'
       customerEmail,
@@ -21,12 +29,20 @@ export default async function handler(req, res) {
       trialEndDate,
       subscriptionId,
       planName = 'Pro'
-    } = req.body;
+    } = requestBody;
 
     if (!type || !customerEmail) {
-      return res.status(400).json({ 
-        error: 'Email type and customer email are required' 
-      });
+      return {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          error: 'Email type and customer email are required' 
+        })
+      };
     }
 
     let emailData;
@@ -45,7 +61,15 @@ export default async function handler(req, res) {
         emailData = generatePaymentFailedEmail(customerName, customerEmail, subscriptionId);
         break;
       default:
-        return res.status(400).json({ error: 'Invalid email type' });
+        return {
+          statusCode: 400,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ error: 'Invalid email type' })
+        };
     }
 
     // Send email if SendGrid is configured
@@ -56,17 +80,33 @@ export default async function handler(req, res) {
       console.log('SendGrid not configured - email would be sent:', emailData);
     }
 
-    res.status(200).json({ 
-      success: true, 
-      message: `${type} email sent to ${customerEmail}` 
-    });
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        success: true, 
+        message: `${type} email sent to ${customerEmail}` 
+      })
+    };
 
   } catch (error) {
     console.error('Email sending failed:', error);
-    res.status(500).json({ 
-      error: error.message,
-      details: 'Failed to send email'
-    });
+    return {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        error: error.message,
+        details: 'Failed to send email'
+      })
+    };
   }
 }
 

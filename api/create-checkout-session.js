@@ -1,13 +1,21 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method not allowed' });
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Allow': 'POST'
+      },
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
   }
 
   try {
-    const { price_id } = req.body;
+    const requestBody = JSON.parse(event.body || '{}');
+    const { price_id } = requestBody;
     
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
@@ -27,12 +35,28 @@ export default async function handler(req, res) {
       }
     });
 
-    res.status(200).json({ id: session.id, url: session.url });
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: session.id, url: session.url })
+    };
   } catch (error) {
     console.error('Stripe checkout session creation failed:', error);
-    res.status(500).json({ 
-      error: error.message,
-      details: 'Failed to create checkout session'
-    });
+    return {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        error: error.message,
+        details: 'Failed to create checkout session'
+      })
+    };
   }
 }

@@ -1,23 +1,39 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method not allowed' });
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Allow': 'POST'
+      },
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
   }
 
   try {
+    const requestBody = JSON.parse(event.body || '{}');
     const { 
       email, 
       name, 
       company = '', 
       plan = 'pro' // Default to pro plan
-    } = req.body;
+    } = requestBody;
     
     if (!email || !name) {
-      return res.status(400).json({ 
-        error: 'Email and name are required' 
-      });
+      return {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          error: 'Email and name are required' 
+        })
+      };
     }
 
     // Create or retrieve Stripe customer
@@ -61,19 +77,35 @@ export default async function handler(req, res) {
     });
 
     // Return subscription details
-    res.status(200).json({
-      subscriptionId: subscription.id,
-      customerId: customer.id,
-      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
-      trialEnd: subscription.trial_end,
-      status: subscription.status
-    });
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        subscriptionId: subscription.id,
+        customerId: customer.id,
+        clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+        trialEnd: subscription.trial_end,
+        status: subscription.status
+      })
+    };
 
   } catch (error) {
     console.error('Trial subscription creation failed:', error);
-    res.status(500).json({ 
-      error: error.message,
-      details: 'Failed to create trial subscription'
-    });
+    return {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        error: error.message,
+        details: 'Failed to create trial subscription'
+      })
+    };
   }
 }
