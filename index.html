@@ -368,31 +368,134 @@
         </div>
     </footer>
 
-    <!-- FREE TRIAL SIGNUP MODAL (FIXED) -->
+    <!-- STRIPE TRIAL SUBSCRIPTION MODAL -->
     <div id="trialModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeTrialModal()">&times;</span>
-            <div class="text-center">
-                <i class="fas fa-rocket text-4xl text-white mb-4"></i>
-                <h2 class="text-3xl font-bold text-white mb-2">Start Your FREE Trial!</h2>
-                <p class="text-purple-200 mb-6">Get 14 days of Pro features, completely free. No credit card required!</p>
-                
-                <form class="signup-form" onsubmit="handleTrialSignup(event)">
-                    <input type="text" placeholder="Your Name" id="trialName" required>
-                    <input type="email" placeholder="Email Address" id="trialEmail" required>
-                    <input type="text" placeholder="Company (optional)" id="trialCompany">
-                    
-                    <button type="submit" class="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white font-bold py-4 px-6 rounded-2xl hover:shadow-lg transition-all duration-300 mt-4" id="signupButton">
-                        <i class="fas fa-rocket mr-2"></i>
-                        Start My FREE Trial Now!
-                    </button>
-                </form>
-                
-                <p class="text-purple-300 text-sm mt-4">
-                    <i class="fas fa-lock mr-1"></i>
-                    Your data is secure. No spam, ever. Cancel anytime during your free trial.
+        <div class="modal-content" style="max-width: 600px; width: 95%;">
+            <span class="close close-modal">&times;</span>
+            
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <h2 class="text-3xl font-bold mb-2">
+                    <i class="fas fa-rocket text-yellow-300 mr-2"></i>
+                    Start Your <span class="plan-name">Pro</span> Trial
+                </h2>
+                <p class="text-purple-100 text-lg">
+                    14 days free, then <span class="plan-price">$20</span>/month. Cancel anytime.
                 </p>
             </div>
+
+            <!-- Plan Features -->
+            <div class="bg-white bg-opacity-10 rounded-xl p-4 mb-6">
+                <h3 class="font-semibold mb-3 text-white">✨ What you get:</h3>
+                <ul class="plan-features space-y-2">
+                    <li class="flex items-center text-sm"><i class="fas fa-check text-green-300 mr-2"></i>Unlimited dashboards</li>
+                    <li class="flex items-center text-sm"><i class="fas fa-check text-green-300 mr-2"></i>Custom branding</li>
+                    <li class="flex items-center text-sm"><i class="fas fa-check text-green-300 mr-2"></i>Priority support</li>
+                </ul>
+            </div>
+
+            <!-- Trial Signup Form -->
+            <form id="trialSignupForm" class="space-y-4">
+                <!-- Customer Information -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="trialName" class="block text-sm font-medium mb-2">Full Name *</label>
+                        <input 
+                            type="text" 
+                            id="trialName" 
+                            name="name"
+                            required 
+                            class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:border-white focus:border-opacity-50"
+                            placeholder="Your full name"
+                        >
+                    </div>
+                    <div>
+                        <label for="trialEmail" class="block text-sm font-medium mb-2">Email Address *</label>
+                        <input 
+                            type="email" 
+                            id="trialEmail" 
+                            name="email"
+                            required 
+                            class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:border-white focus:border-opacity-50"
+                            placeholder="you@company.com"
+                        >
+                    </div>
+                </div>
+
+                <div>
+                    <label for="trialCompany" class="block text-sm font-medium mb-2">Company (Optional)</label>
+                    <input 
+                        type="text" 
+                        id="trialCompany" 
+                        name="company"
+                        class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:border-white focus:border-opacity-50"
+                        placeholder="Your company name"
+                    >
+                </div>
+
+                <!-- Payment Method Section -->
+                <div class="bg-white bg-opacity-10 rounded-xl p-6">
+                    <h3 class="font-semibold mb-3 text-white flex items-center">
+                        <i class="fas fa-credit-card mr-2"></i>
+                        Payment Method
+                    </h3>
+                    <p class="text-sm text-purple-100 mb-4">
+                        💳 We'll collect your payment method but <strong>won't charge you</strong> until your 14-day trial ends.
+                    </p>
+                    
+                    <!-- Stripe Elements will mount here -->
+                    <div id="card-element" class="p-4 bg-white bg-opacity-10 rounded-lg border border-white border-opacity-20">
+                        <!-- Stripe Elements Placeholder -->
+                    </div>
+                    
+                    <!-- Card errors -->
+                    <div id="card-errors" role="alert" class="text-red-300 text-sm mt-2" style="display: none;"></div>
+                </div>
+
+                <!-- Security Badges -->
+                <div class="flex items-center justify-center space-x-4 text-xs text-purple-200 mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-lock mr-1"></i>
+                        SSL Encrypted
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fab fa-stripe mr-1"></i>
+                        Secured by Stripe
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt mr-1"></i>
+                        PCI Compliant
+                    </div>
+                </div>
+
+                <!-- Error Display -->
+                <div id="trial-error" class="bg-red-500 bg-opacity-20 border border-red-400 border-opacity-50 rounded-lg p-4 text-red-200 text-sm" style="display: none;">
+                    <!-- Error messages appear here -->
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    id="trialSubmitButton"
+                    class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-purple-900 font-bold py-4 px-8 rounded-xl hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                    <i class="fas fa-rocket mr-2"></i>
+                    Start My 14-Day FREE Trial
+                </button>
+
+                <!-- Terms and Trial Info -->
+                <div class="text-center space-y-2 mt-6">
+                    <p class="text-xs text-purple-200 opacity-80">
+                        🎯 <strong>No risk:</strong> Cancel anytime during your trial with zero charges
+                    </p>
+                    <p class="text-xs text-purple-200 opacity-80">
+                        By starting your trial, you agree to our <a href="/terms" class="underline hover:text-white">Terms of Service</a> and <a href="/privacy" class="underline hover:text-white">Privacy Policy</a>
+                    </p>
+                    <p class="text-xs text-purple-200 opacity-80">
+                        💬 Questions? Email us at <a href="mailto:hello@chartflow.com" class="underline hover:text-white">hello@chartflow.com</a>
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -429,64 +532,29 @@
             }
         }
 
-        // FIXED: Proper free trial function (no payment required!)
+        // Updated trial functions - now handled by trial-signup.js
         function startFreeTrial() {
-            document.getElementById('trialModal').style.display = 'block';
+            if (window.chartFlowTrial) {
+                window.chartFlowTrial.startTrialSignup('pro');
+            } else {
+                // Fallback if script hasn't loaded yet
+                document.getElementById('trialModal').style.display = 'block';
+            }
         }
 
         function closeTrialModal() {
-            document.getElementById('trialModal').style.display = 'none';
+            if (window.chartFlowTrial) {
+                window.chartFlowTrial.closeTrialModal();
+            } else {
+                // Fallback
+                document.getElementById('trialModal').style.display = 'none';
+            }
         }
 
-        // FIXED: Actual free trial signup (no Stripe checkout!)
+        // Legacy function for compatibility - now redirects to new system
         function handleTrialSignup(event) {
             event.preventDefault();
-            
-            const name = document.getElementById('trialName').value;
-            const email = document.getElementById('trialEmail').value;
-            const company = document.getElementById('trialCompany').value;
-            
-            const signupButton = document.getElementById('signupButton');
-            signupButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Setting up your trial...';
-            signupButton.disabled = true;
-            
-            // Simulate signup process
-            setTimeout(() => {
-                // Track the signup
-                if (window.analytics) {
-                    window.analytics.trackSignup();
-                }
-                
-                // Store trial info locally (in production, send to your backend)
-                const trialData = {
-                    name,
-                    email,
-                    company,
-                    trialStartDate: new Date().toISOString(),
-                    trialEndDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-                    plan: 'pro-trial'
-                };
-                
-                localStorage.setItem('chartflow_trial', JSON.stringify(trialData));
-                
-                // Close modal and show success
-                closeTrialModal();
-                
-                // Show success message
-                alert(`🎉 Welcome ${name}! Your 14-day FREE trial has started! Check your email for next steps.`);
-                
-                // In production, redirect to dashboard or onboarding
-                console.log('Trial started for:', trialData);
-                
-            }, 2000);
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('trialModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
+            console.log('Legacy signup function called - should be handled by new system');
         }
 
         // Add smooth scrolling for anchor links
@@ -503,5 +571,8 @@
         });
 
     </script>
+    
+    <!-- Stripe Trial Signup System -->
+    <script src="trial-signup.js"></script>
 </body>
 </html><!-- Deploy trigger Thu Feb  5 19:39:07 EST 2026 -->
